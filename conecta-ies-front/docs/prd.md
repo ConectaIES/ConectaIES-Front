@@ -1,4 +1,3 @@
-
 # Documento de Requisitos de Produto (PRD) - ConectaIES
 
 ## 1. Detalhes do Documento
@@ -6,10 +5,10 @@
 | Campo | Detalhe |
 | :--- | :--- |
 | **Nome do Produto/Funcionalidade** | ConectaIES - Plataforma de Gestão Inclusiva e Participativa |
-| **Data da Criação** | (Data da Conclusão) |
-| **Status** | Finalizado e Validado (PO) |
+| **Data da Conclusão** | (Data Atual) |
+| **Status** | Finalizado e Assinado (PM/PO) |
 | **Agente PM Responsável** | BMad Product Manager |
-| **Próximo Agente (Handoff)** | Desenvolvimento (IDE) |
+| **Próximo Passo** | Início do Desenvolvimento (IDE) |
 
 ## 2. Visão, Objetivos e Motivação
 
@@ -45,71 +44,94 @@ O sucesso será medido pela eficácia da IES em responder e resolver as necessid
 
 ---
 
-## 5. Backlog Refinado (Histórias de Usuário)
+## 5. Backlog Refinado (Histórias de Usuário - MVP e Próxima Etapa)
 
 ### US-201: Criação de Nova Solicitação de Assistência
 
 | Campo | Detalhe |
 | :--- | :--- |
-| **Épico Pai** | EPIC-200: Módulo de Solicitação e Assistência |
-| **Prioridade (MoSCoW)** | MUST HAVE (Deve Ter) |
-| **Descrição** | **Como um** **Aluno** ou **Professor**, **eu quero** uma tela simples e intuitiva para **criar e enviar uma nova solicitação de assistência**, **para que eu possa** rapidamente comunicar minhas necessidades específicas à IES e garantir que o processo de **resposta rápida** seja iniciado imediatamente. |
+| **Épico Pai** | EPIC-200 |
+| **Prioridade (MoSCoW)** | MUST HAVE |
+| **Descrição** | **Como um Aluno** ou **Professor**, **eu quero** uma tela simples e intuitiva para **criar e enviar uma nova solicitação de assistência**, **para que eu possa** rapidamente comunicar minhas necessidades específicas à IES e garantir que o processo de **resposta rápida** seja iniciado imediatamente. |
 
 #### Critérios de Aceitação (CAs)
 
 | ID do CA | Critério de Aceitação |
 | :--- | :--- |
-| **CA 201.1** | O sistema deve apresentar um formulário de criação com campos obrigatórios: **Título**, **Descrição** e uma seleção do **Tipo de Solicitação** (ex: Apoio à Locomoção, Interpretação de Libras, Outros). |
-| **CA 201.2** | O formulário deve permitir que o usuário adicione **anexos** (arquivos de imagem ou documento) para fornecer contexto à solicitação (limite de 3 anexos por solicitação). |
-| **CA 201.3** | O campo **Descrição** deve permitir texto livre para cobrir qualquer tipo de necessidade não listada, mantendo o requisito de **solicitações abertas**. |
-| **CA 201.4** | Após o envio, o usuário deve receber uma **notificação de confirmação** que inclua um número de protocolo único (Ex: SOL-2025-0001) e o tempo médio esperado para a primeira resposta (KPI). |
-| **CA 201.5** | Imediatamente após o envio, a solicitação deve ser visível no **Dashboard Administrativo** (EPIC-400) e o administrador responsável deve ser **notificado** em tempo real. |
+| **CA 201.1** | O sistema deve apresentar um formulário de criação com campos obrigatórios: **Título**, **Descrição** e uma seleção do **Tipo de Solicitação**. |
+| **CA 201.2** | O formulário deve permitir que o usuário adicione **anexos** (limite de 3). |
+| **CA 201.3** | O campo **Descrição** deve permitir texto livre para cobrir qualquer tipo de necessidade não listada. |
+| **CA 201.4** | Após o envio, o usuário deve receber uma **notificação de confirmação** que inclua um número de protocolo único e o TMR esperado. |
+| **CA 201.5** | Imediatamente após o envio, a solicitação deve ser visível no Dashboard Administrativo e o administrador responsável deve ser **notificado em tempo real**. |
 
 ### US-202: Acompanhamento e Interação em Solicitações Ativas
 
 | Campo | Detalhe |
 | :--- | :--- |
-| **Épico Pai** | EPIC-200: Módulo de Solicitação e Assistência |
-| **Prioridade (MoSCoW)** | MUST HAVE (Deve Ter) |
-| **Descrição** | **Como um Aluno** ou **Professor**, **eu quero** visualizar uma lista de todas as minhas solicitações ativas e a capacidade de interagir com cada uma delas, **para que eu possa** monitorar o progresso (status), receber a comunicação da IES e responder a dúvidas ou fornecer informações adicionais. |
+| **Épico Pai** | EPIC-200 |
+| **Prioridade (MoSCoW)** | MUST HAVE |
+| **Descrição** | **Como um Aluno** ou **Professor**, **eu quero** visualizar uma lista de todas as minhas solicitações ativas e a capacidade de interagir com cada uma delas, **para que eu possa** monitorar o progresso (status) e responder a dúvidas. |
 
 #### Critérios de Aceitação (CAs)
 
 | ID do CA | Critério de Aceitação |
 | :--- | :--- |
-| **CA 202.1** | Deve existir uma tela ("Minhas Solicitações") que exiba uma lista cronológica de todas as solicitações enviadas pelo usuário (ativas e resolvidas). |
-| **CA 202.2** | Cada item da lista deve mostrar o **Título**, o **Status Atual** (ex: Aberto, Em Análise, Em Execução, Resolvido) e a **data/hora da última atualização** de forma clara. |
-| **CA 202.3** | Ao selecionar uma solicitação, o usuário deve visualizar uma **linha do tempo de eventos** (histórico) que registre todas as mudanças de status e comunicações internas da IES, garantindo transparência. |
-| **CA 202.4** | O usuário deve poder **adicionar comentários/mensagens** e novos **anexos** a uma solicitação ativa, e essa nova informação deve notificar o administrador responsável (garantindo o fluxo de comunicação de duas vias). |
-| **CA 202.5** | O usuário deve ser capaz de **marcar uma solicitação como resolvida** por conta própria, caso o administrador ainda não o tenha feito, ou solicitar a **reabertura** de uma solicitação resolvida dentro de 7 dias. |
+| **CA 202.1** | Deve existir uma tela ("Minhas Solicitações") que exiba uma lista cronológica de todas as solicitações. |
+| **CA 202.2** | Cada item da lista deve mostrar o **Título**, o **Status Atual** e a **data/hora da última atualização**. |
+| **CA 202.3** | Ao selecionar uma solicitação, o usuário deve visualizar uma **linha do tempo de eventos** (histórico) que registre todas as mudanças de status e comunicações. |
+| **CA 202.4** | O usuário deve poder **adicionar comentários/mensagens** e novos **anexos** a uma solicitação ativa. |
+| **CA 202.5** | O usuário deve ser capaz de **marcar uma solicitação como resolvida** por conta própria ou solicitar a **reabertura**. |
 
 ### US-401: Visualização e Atribuição de Novas Solicitações
 
 | Campo | Detalhe |
 | :--- | :--- |
-| **Épico Pai** | EPIC-400: Dashboard e Gestão Administrativa |
-| **Prioridade (MoSCoW)** | MUST HAVE (Deve Ter) |
-| **Descrição** | **Como um Administrador** da IES, **eu quero** um **dashboard claro e atualizado em tempo real** que me alerte imediatamente sobre novas solicitações de assistência e me permita **atribuir e iniciar a análise** rapidamente, **para que eu possa** garantir que o Tempo Médio de Resposta (TMR) da IES seja atingido. |
+| **Épico Pai** | EPIC-400 |
+| **Prioridade (MoSCoW)** | MUST HAVE |
+| **Descrição** | **Como um Administrador**, **eu quero** um **dashboard claro e atualizado em tempo real** que me alerte imediatamente sobre novas solicitações e me permita **atribuir e iniciar a análise** rapidamente, **para que eu possa** garantir que o Tempo Médio de Resposta (TMR) da IES seja atingido. |
 
-#### Critérios de Aceitação (CAs) e Refinamentos
+#### Critérios de Aceitação (CAs) e Refinamentos (Versão Final)
 
-| ID do CA | Critério de Aceitação | Refinamento do PO |
-| :--- | :--- | :--- |
-| **CA 401.1** | O dashboard deve ter um filtro "Novas Solicitações" que exiba apenas pedidos no status **"Aberto"** ou **"Não Visto"** e que tenha um contador de urgência piscando ou destacado. | N/A |
-| **CA 401.2** | A lista de solicitações deve ser **ordenável e filtrável** por: Data de Criação, Tipo de Solicitação e, mais importante, **Tempo Restante para Resposta** (destacando as que estão próximas de violar o TMR de 4 horas). | **O Back-End deve expor um campo calculado (Ex: `time_to_tmm_breach`) em minutos ou segundos para que o Front-End possa fazer a ordenação precisa e destaque de cor.** |
-| **CA 401.3** | Ao clicar em uma nova solicitação, o Administrador deve ver todos os detalhes (Título, Descrição, Anexos e dados do Aluno/Professor), e o status da solicitação deve ser alterado automaticamente para **"Em Análise"**. | N/A |
-| **CA 401.4** | O Administrador deve ter um campo de ação imediata para **Atribuir** a solicitação a outro membro da equipe de gestão (com um seletor de usuários cadastrados) e adicionar uma nota interna de acompanhamento. | N/A |
-| **CA 401.5** | O Administrador deve conseguir enviar uma **primeira resposta** diretamente ao usuário através de um campo de chat/comentário, e esta ação deve zerar o contador do TMR. | **O Architect deve confirmar que a ação que envia a primeira resposta também atualiza o campo `first_response_at` no MySQL de forma atômica e dispara a notificação em tempo real para o usuário (via WebSocket).** |
+| ID do CA | Critério de Aceitação |
+| :--- | :--- |
+| **CA 401.1** | O dashboard deve ter um filtro "Novas Solicitações" que exiba apenas pedidos no status **"Aberto"** ou **"Não Visto"** e que tenha um contador de urgência destacado. |
+| **CA 401.2** | A lista de solicitações deve ser ordenável e filtrável por **Tempo Restante para Resposta**. **O Back-End deve fornecer um campo calculado** (`time_to_tmm_breach`) para permitir a ordenação precisa. |
+| **CA 401.3** | Ao clicar em uma nova solicitação, o Administrador deve ver todos os detalhes e o status deve ser alterado automaticamente para **"Em Análise"**. |
+| **CA 401.4** | O Administrador deve ter um campo de ação imediata para **Atribuir** a solicitação a outro membro da equipe de gestão. |
+| **CA 401.5** | O Administrador deve conseguir enviar uma **primeira resposta**. Esta ação **deve, de forma atômica, atualizar o campo `first_response_at` no banco de dados e disparar uma notificação em tempo real** (via WebSocket) para o usuário, zerando o contador do TMR. |
 
----
+### US-301: Registro e Categorização de Novo Feedback
 
-## 6. Sumário das Decisões de Arquitetura
+| Campo | Detalhe |
+| :--- | :--- |
+| **Épico Pai** | EPIC-300 |
+| **Prioridade (MoSCoW)** | SHOULD HAVE |
+| **Descrição** | **Como um Aluno** ou **Professor**, **eu quero** uma tela dedicada para registrar **feedback não urgente** com a opção de categorizar o tópico e manter o anonimato, **para que eu possa** contribuir para pontos de melhoria sem precisar abrir uma solicitação formal. |
 
-Este sumário técnico foi validado e está alinhado com os requisitos de **tempo real** e **resposta rápida**.
+#### Critérios de Aceitação (CAs)
 
-| Camada | Tecnologia Principal | Motivação |
-| :--- | :--- | :--- |
-| **Front-End** | **Angular** com **RxJS** e **Angular Material** | Estrutura robusta, forte tipagem, e gerenciamento de estado reativo para interfaces em tempo real (Dashboard Admin e Acompanhamento). |
-| **Back-End (Serviços)** | **Node.js/Express** com **Socket.IO** | Melhor escolha para I/O-bound e comunicação em **tempo real** (WebSockets), crucial para o KPI de TMR. |
-| **Banco de Dados Principal** | **MySQL (InnoDB)** | Armazenamento persistente e transacional das Solicitações, Usuários e Histórico de Eventos (`EventHistory`), essenciais para o cálculo do TMR. |
-| **Banco de Dados Secundário** | **Redis** | Utilizado para *caching* de alta velocidade, sessões e gerenciamento de estado de conexão, otimizando a performance do Dashboard Admin. |
+| ID do CA | Critério de Aceitação |
+| :--- | :--- |
+| **CA 301.1** | O formulário deve ter um campo de **Descrição** obrigatório. |
+| **CA 301.2** | O usuário deve ser obrigado a selecionar uma **Categoria** pré-definida de Feedback (Ex: Didática, Infraestrutura). |
+| **CA 301.3** | O formulário deve apresentar uma chave de seleção (*toggle*) com a opção **"Enviar Anonimamente"**. |
+| **CA 301.4** | Se a opção **"Enviar Anonimamente"** for selecionada, o registro no Back-End deve ocultar/anonimizar qualquer identificação pessoal do usuário, mas **manter o tipo de perfil**. |
+| **CA 301.5** | Após o envio, o feedback deve ser direcionado para uma área de **Análise no Dashboard Administrativo**, separada das Solicitações URGENTES, e **não** deve disparar uma notificação de urgência. |
+
+### US-501: Notificação em Tempo Real sobre Status Crítico
+
+| Campo | Detalhe |
+| :--- | :--- |
+| **Épico Pai** | EPIC-500 |
+| **Prioridade (MoSCoW)** | MUST HAVE |
+| **Descrição** | **Como um Administrador**, **eu quero** receber notificações instantâneas de novas solicitações e, **como um Usuário**, **eu quero** ser notificado imediatamente sobre a primeira resposta ou atualização de status, **para que** o **TMR não seja violado**. |
+
+#### Critérios de Aceitação (CAs)
+
+| ID do CA | Critério de Aceitação |
+| :--- | :--- |
+| **CA 501.1** | O Administrador deve receber uma notificação **sonora e visual (via WebSocket)** na interface Web sempre que uma **nova solicitação (US-201)** for criada. |
+| **CA 501.2** | O Administrador deve receber uma notificação **imediata** sempre que um usuário final adicionar um **novo comentário/anexo** a uma solicitação já existente. |
+| **CA 501.3** | O usuário final deve receber uma notificação **imediata** na interface Web quando o Administrador enviar a **primeira resposta** (CA 401.5). |
+| **CA 501.4** | O usuário final deve ter um **ícone de sino/notificação** que exiba um contador de notificações não lidas. |
+| **CA 501.5** | As notificações críticas devem persistir no **Dashboard Administrativo** até que o Admin clique na solicitação ou as marque como lidas. |
