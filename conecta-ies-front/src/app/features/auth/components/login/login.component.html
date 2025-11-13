@@ -1,0 +1,20 @@
+<div class="auth-container">
+  <h2>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label>E-mail</label>
+    <input type="email" formControlName="email" placeholder="Digite seu e-mail" />
+
+    <label>Senha</label>
+    <input type="password" formControlName="senha" placeholder="Digite sua senha" />
+
+    <button type="submit">Entrar</button>
+  </form>
+
+  <p class="link">
+    <a (click)="onForgotPassword()" class="forgot">Esqueci minha senha</a>
+  </p>
+
+  <p class="link">
+    Não tem conta? <a routerLink="/auth/cadastro">Cadastre-se</a>
+  </p>
+</div>

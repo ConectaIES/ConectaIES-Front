@@ -1,0 +1,29 @@
+<div class="auth-container">
+  <h2>Cadastro</h2>
+
+  <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+    <label>Nome Completo</label>
+    <input type="text" formControlName="nomeCompleto" placeholder="Digite seu nome completo" />
+
+    <label>E-mail</label>
+    <input type="email" formControlName="email" placeholder="Digite seu e-mail" />
+
+    <label>Tipo de Perfil</label>
+    <select formControlName="perfil">
+      <option value="" disabled selected>Selecione seu perfil</option>
+      <option *ngFor="let p of perfis" [value]="p">{{ p }}</option>
+    </select>
+
+    <label>Senha</label>
+    <input type="password" formControlName="senha" placeholder="Crie uma senha" />
+
+    <label>Confirmar Senha</label>
+    <input type="password" formControlName="confirmarSenha" placeholder="Confirme sua senha" />
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <p class="link">
+    Já tem conta? <a routerLink="/auth/login">Fazer login</a>
+  </p>
+</div>

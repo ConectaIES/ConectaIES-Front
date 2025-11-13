@@ -35,6 +35,20 @@ export const routes: Routes = [
         loadComponent: () => import('./features/solicitacao/components/detalhe-solicitacao/detalhe-solicitacao.component').then(m => m.DetalheSolicitacaoComponent)
       }
     ]
-  }
+  },
+  {
+  path: 'auth',
+  children: [
+    {
+      path: 'login',
+      loadComponent: () => import('./features/auth/components/login/login.component').then(m => m.LoginComponent)
+    },
+    {
+      path: 'cadastro',
+      loadComponent: () => import('./features/auth/components/cadastro/cadastro.component').then(m => m.CadastroComponent)
+    }
+  ]
+}
+
 ];
 
