@@ -1,0 +1,81 @@
+<mat-card class="criar-solicitacao-card">
+  <mat-card-header>
+    <mat-card-title>Nova Solicitação de Assistência</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo" placeholder="Digite um título breve" />
+        @if (form.get('titulo')?.hasError('required')) {
+          <mat-error>Título é obrigatório</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo de Solicitação</mat-label>
+        <mat-select formControlName="tipo">
+          @for (tipo of tiposSolicitacao; track tipo.value) {
+            <mat-option [value]="tipo.value">{{ tipo.label }}</mat-option>
+          }
+        </mat-select>
+        @if (form.get('tipo')?.hasError('required')) {
+          <mat-error>Tipo é obrigatório</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição</mat-label>
+        <textarea
+          matInput
+          formControlName="descricao"
+          rows="6"
+          placeholder="Descreva sua solicitação em detalhes"
+        ></textarea>
+        @if (form.get('descricao')?.hasError('required')) {
+          <mat-error>Descrição é obrigatória</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="anexos-section">
+        <h3>Anexos (opcional - máximo 3)</h3>
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelected($event)"
+          multiple
+          accept="image/*,.pdf,.doc,.docx"
+          style="display: none"
+        />
+        <button mat-raised-button type="button" (click)="fileInput.click()" [disabled]="anexos().length >= 3">
+          <mat-icon>attach_file</mat-icon>
+          Adicionar Anexo
+        </button>
+
+        @if (anexos().length > 0) {
+          <div class="anexos-lista">
+            @for (anexo of anexos(); track $index) {
+              <div class="anexo-item">
+                <span>{{ anexo.name }}</span>
+                <button mat-icon-button type="button" (click)="removerAnexo($index)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || enviando()">
+          @if (enviando()) {
+            Enviando...
+          } @else {
+            Enviar Solicitação
+          }
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
