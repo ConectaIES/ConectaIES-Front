@@ -3,13 +3,17 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
   path: '',
-  redirectTo: 'home',
+  redirectTo: 'auth/inicial',
   pathMatch: 'full'
 },
 {
   path: 'home',
   loadComponent: () => import('./features/home/components/home-component/home.component').then(m => m.HomeComponent)
     },
+{
+  path: 'perfil',
+  loadComponent: () => import('./features/perfil/components/perfil/perfil').then(m => m.Perfil)
+},
 
 {
     path: 'solicitacoes',
@@ -44,6 +48,10 @@ export const routes: Routes = [
   {
   path: 'auth',
   children: [
+    {
+      path: 'inicial',
+      loadComponent: () => import('./features/auth/components/inicial/inicial').then(m => m.Inicial)
+    },
     {
       path: 'login',
       loadComponent: () => import('./features/auth/components/login/login.component').then(m => m.LoginComponent)

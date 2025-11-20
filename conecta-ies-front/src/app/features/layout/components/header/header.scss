@@ -11,57 +11,100 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .logo {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
+    height: 50px;
+    width: auto;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
-  .nav {
+  .perfil-container {
+    position: relative;
+  }
+
+  .perfil {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap; 
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .perfil-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .perfil-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: -10px;
+    background-color: white;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    border-radius: 8px;
+    min-width: 200px;
+
+    &.active {
+      max-height: 400px;
+    }
 
     a {
-      color: white;
+      color: #333;
       text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       transition: background-color 0.2s;
+      font-size: 0.95rem;
+
+      &:last-child {
+        border-bottom: none;
+        border-radius: 0 0 8px 8px;
+      }
+
+      &:first-child {
+        border-radius: 8px 8px 0 0;
+      }
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(25, 118, 210, 0.1);
       }
 
       &.active {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(25, 118, 210, 0.15);
+        color: #1976d2;
         font-weight: 500;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .logo {
-      margin-bottom: 1rem;
-    }
-
-    .nav {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      a {
-        width: 100%;
-        text-align: center;
       }
     }
   }

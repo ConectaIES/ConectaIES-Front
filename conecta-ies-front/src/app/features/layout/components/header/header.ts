@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -8,5 +8,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.scss',
 })
 export class Header {
+  menuAberto = signal(false);
 
+  toggleMenu(): void {
+    this.menuAberto.update(value => !value);
+  }
+
+  fecharMenu(): void {
+    this.menuAberto.set(false);
+  }
 }
