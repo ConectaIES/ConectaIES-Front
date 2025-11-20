@@ -1,20 +1,50 @@
 <div class="auth-container">
-  <h2>Login</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <label>E-mail</label>
-    <input type="email" formControlName="email" placeholder="Digite seu e-mail" />
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Bem-vindo de volta!</h2>
+      <p>Entre com suas credenciais para acessar o sistema</p>
+    </div>
 
-    <label>Senha</label>
-    <input type="password" formControlName="senha" placeholder="Digite sua senha" />
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input 
+          id="email"
+          type="email" 
+          formControlName="email" 
+          placeholder="seu.email@estudante.ies.edu.br"
+          class="form-input"
+        />
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <span class="error-message">E-mail inválido</span>
+        }
+      </div>
 
-    <button type="submit">Entrar</button>
-  </form>
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input 
+          id="senha"
+          type="password" 
+          formControlName="senha" 
+          placeholder="••••••••"
+          class="form-input"
+        />
+        @if (loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched) {
+          <span class="error-message">Senha deve ter no mínimo 6 caracteres</span>
+        }
+      </div>
 
-  <p class="link">
-    <a (click)="onForgotPassword()" class="forgot">Esqueci minha senha</a>
-  </p>
+      <div class="form-options">
+        <a (click)="onForgotPassword()" class="link-forgot">Esqueci minha senha</a>
+      </div>
 
-  <p class="link">
-    Não tem conta? <a routerLink="/auth/cadastro">Cadastre-se</a>
-  </p>
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+        Entrar
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Não tem conta? <a routerLink="/auth/cadastro" class="link-cadastro">Cadastre-se</a></p>
+    </div>
+  </div>
 </div>

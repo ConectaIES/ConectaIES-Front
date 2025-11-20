@@ -1,29 +1,101 @@
 <div class="auth-container">
-  <h2>Cadastro</h2>
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Criar Nova Conta</h2>
+      <p>Preencha os dados abaixo para se cadastrar no sistema</p>
+    </div>
 
-  <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
-    <label>Nome Completo</label>
-    <input type="text" formControlName="nomeCompleto" placeholder="Digite seu nome completo" />
+    <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="nomeCompleto">Nome Completo</label>
+        <input 
+          id="nomeCompleto"
+          type="text" 
+          formControlName="nomeCompleto" 
+          placeholder="Digite seu nome completo"
+          class="form-input"
+        />
+        @if (cadastroForm.get('nomeCompleto')?.invalid && cadastroForm.get('nomeCompleto')?.touched) {
+          <span class="error-message">Nome completo é obrigatório</span>
+        }
+      </div>
 
-    <label>E-mail</label>
-    <input type="email" formControlName="email" placeholder="Digite seu e-mail" />
+      <div class="form-group">
+        <label for="email">E-mail Institucional</label>
+        <input 
+          id="email"
+          type="email" 
+          formControlName="email" 
+          placeholder="seu.email@estudante.ies.edu.br"
+          class="form-input"
+        />
+        @if (cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched) {
+          <span class="error-message">E-mail inválido</span>
+        }
+      </div>
 
-    <label>Tipo de Perfil</label>
-    <select formControlName="perfil">
-      <option value="" disabled selected>Selecione seu perfil</option>
-      <option *ngFor="let p of perfis" [value]="p">{{ p }}</option>
-    </select>
+      <div class="form-group">
+        <label for="matricula">Matrícula</label>
+        <input 
+          id="matricula"
+          type="text" 
+          formControlName="matricula" 
+          placeholder="Digite sua matrícula"
+          class="form-input"
+        />
+        @if (cadastroForm.get('matricula')?.invalid && cadastroForm.get('matricula')?.touched) {
+          <span class="error-message">Matrícula é obrigatória</span>
+        }
+      </div>
 
-    <label>Senha</label>
-    <input type="password" formControlName="senha" placeholder="Crie uma senha" />
+      <div class="form-group">
+        <label for="perfil">Tipo de Perfil</label>
+        <select id="perfil" formControlName="perfil" class="form-select">
+          <option value="" disabled selected>Selecione seu perfil</option>
+          <option *ngFor="let p of perfis" [value]="p">{{ p }}</option>
+        </select>
+        @if (cadastroForm.get('perfil')?.invalid && cadastroForm.get('perfil')?.touched) {
+          <span class="error-message">Selecione um tipo de perfil</span>
+        }
+      </div>
 
-    <label>Confirmar Senha</label>
-    <input type="password" formControlName="confirmarSenha" placeholder="Confirme sua senha" />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input 
+            id="senha"
+            type="password" 
+            formControlName="senha" 
+            placeholder="••••••••"
+            class="form-input"
+          />
+          @if (cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched) {
+            <span class="error-message">Mínimo 6 caracteres</span>
+          }
+        </div>
 
-    <button type="submit">Cadastrar</button>
-  </form>
+        <div class="form-group">
+          <label for="confirmarSenha">Confirmar Senha</label>
+          <input 
+            id="confirmarSenha"
+            type="password" 
+            formControlName="confirmarSenha" 
+            placeholder="••••••••"
+            class="form-input"
+          />
+          @if (cadastroForm.get('confirmarSenha')?.invalid && cadastroForm.get('confirmarSenha')?.touched) {
+            <span class="error-message">As senhas não coincidem</span>
+          }
+        </div>
+      </div>
 
-  <p class="link">
-    Já tem conta? <a routerLink="/auth/login">Fazer login</a>
-  </p>
+      <button type="submit" class="btn btn-primary" [disabled]="cadastroForm.invalid">
+        Criar Conta
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Já tem conta? <a routerLink="/auth/login" class="link-login">Fazer login</a></p>
+    </div>
+  </div>
 </div>
