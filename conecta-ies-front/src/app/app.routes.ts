@@ -33,6 +33,22 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'chamado-personalizado',
+    loadComponent: () => import('./features/solicitacao/components/chamado-personalizado/chamado-personalizado').then(m => m.ChamadoPersonalizado)
+  },
+  {
+    path: 'sugestao-melhoria',
+    loadComponent: () => import('./features/solicitacao/components/sugestao-melhoria/sugestao-melhoria').then(m => m.SugestaoMelhoria)
+  },
+  {
+    path: 'solicitar-apoio',
+    loadComponent: () => import('./features/solicitacao/components/solicitar-apoio/solicitar-apoio').then(m => m.SolicitarApoio)
+  },
+  {
+    path: 'reportar-problema',
+    loadComponent: () => import('./features/solicitacao/components/reportar-problema/reportar-problema').then(m => m.ReportarProblema)
+  },
+  {
     path: 'admin',
     children: [
       {

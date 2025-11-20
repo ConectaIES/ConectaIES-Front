@@ -1,0 +1,20 @@
+@import '../chamado-personalizado/chamado-personalizado.scss';
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+
+  input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+  }
+
+  span {
+    color: #333;
+    font-size: 0.95rem;
+  }
+}

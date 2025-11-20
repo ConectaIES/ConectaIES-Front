@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { RealTimeNotifierService } from '../../../../shared/services/real-time-notifier.service';
 import { Solicitacao } from '../../models/solicitacao.model';
@@ -16,7 +17,8 @@ import { Solicitacao } from '../../models/solicitacao.model';
     MatCardModule,
     MatButtonModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   templateUrl: './listar-solicitacoes.component.html',
   styleUrl: './listar-solicitacoes.component.scss'
@@ -64,8 +66,15 @@ export class ListarSolicitacoesComponent implements OnInit {
     this.router.navigate(['/solicitacoes', id]);
   }
 
-  novaSolicitacao(): void {
-    this.router.navigate(['/solicitacoes/nova']);
+  abrirFormulario(tipo: string): void {
+    const rotas: Record<string, string> = {
+      'chamado': '/chamado-personalizado',
+      'sugestao': '/sugestao-melhoria',
+      'apoio': '/solicitar-apoio',
+      'problema': '/reportar-problema'
+    };
+    
+    this.router.navigate([rotas[tipo]]);
   }
 
   getStatusColor(status: string): string {

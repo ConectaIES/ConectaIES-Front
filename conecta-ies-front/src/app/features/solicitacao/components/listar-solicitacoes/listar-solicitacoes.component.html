@@ -1,10 +1,30 @@
 <div class="listar-solicitacoes-container">
   <div class="header">
     <h1>Minhas Solicitações</h1>
-    <button mat-raised-button color="primary" (click)="novaSolicitacao()">
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="menuSolicitacao">
       <mat-icon>add</mat-icon>
       Nova Solicitação
+      <mat-icon>arrow_drop_down</mat-icon>
     </button>
+    
+    <mat-menu #menuSolicitacao="matMenu">
+      <button mat-menu-item (click)="abrirFormulario('chamado')">
+        <mat-icon>phone</mat-icon>
+        <span>Chamado Personalizado</span>
+      </button>
+      <button mat-menu-item (click)="abrirFormulario('sugestao')">
+        <mat-icon>lightbulb</mat-icon>
+        <span>Sugestão de Melhoria</span>
+      </button>
+      <button mat-menu-item (click)="abrirFormulario('apoio')">
+        <mat-icon>accessibility</mat-icon>
+        <span>Solicitar Apoio</span>
+      </button>
+      <button mat-menu-item (click)="abrirFormulario('problema')">
+        <mat-icon>warning</mat-icon>
+        <span>Reportar Problema</span>
+      </button>
+    </mat-menu>
   </div>
 
   @if (carregando()) {
@@ -13,8 +33,10 @@
     <mat-card class="empty-state">
       <mat-card-content>
         <p>Você ainda não possui solicitações.</p>
-        <button mat-raised-button color="primary" (click)="novaSolicitacao()">
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menuSolicitacao">
+          <mat-icon>add</mat-icon>
           Criar Primeira Solicitação
+          <mat-icon>arrow_drop_down</mat-icon>
         </button>
       </mat-card-content>
     </mat-card>
