@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -8,15 +10,18 @@ export const routes: Routes = [
 },
 {
   path: 'home',
-  loadComponent: () => import('./features/home/components/home-component/home.component').then(m => m.HomeComponent)
+  loadComponent: () => import('./features/home/components/home-component/home.component').then(m => m.HomeComponent),
+  canActivate: [authGuard]
     },
 {
   path: 'perfil',
-  loadComponent: () => import('./features/perfil/components/perfil/perfil').then(m => m.Perfil)
+  loadComponent: () => import('./features/perfil/components/perfil/perfil').then(m => m.Perfil),
+  canActivate: [authGuard]
 },
 
 {
     path: 'solicitacoes',
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -34,22 +39,27 @@ export const routes: Routes = [
   },
   {
     path: 'chamado-personalizado',
-    loadComponent: () => import('./features/solicitacao/components/chamado-personalizado/chamado-personalizado').then(m => m.ChamadoPersonalizado)
+    loadComponent: () => import('./features/solicitacao/components/chamado-personalizado/chamado-personalizado').then(m => m.ChamadoPersonalizado),
+    canActivate: [authGuard]
   },
   {
     path: 'sugestao-melhoria',
-    loadComponent: () => import('./features/solicitacao/components/sugestao-melhoria/sugestao-melhoria').then(m => m.SugestaoMelhoria)
+    loadComponent: () => import('./features/solicitacao/components/sugestao-melhoria/sugestao-melhoria').then(m => m.SugestaoMelhoria),
+    canActivate: [authGuard]
   },
   {
     path: 'solicitar-apoio',
-    loadComponent: () => import('./features/solicitacao/components/solicitar-apoio/solicitar-apoio').then(m => m.SolicitarApoio)
+    loadComponent: () => import('./features/solicitacao/components/solicitar-apoio/solicitar-apoio').then(m => m.SolicitarApoio),
+    canActivate: [authGuard]
   },
   {
     path: 'reportar-problema',
-    loadComponent: () => import('./features/solicitacao/components/reportar-problema/reportar-problema').then(m => m.ReportarProblema)
+    loadComponent: () => import('./features/solicitacao/components/reportar-problema/reportar-problema').then(m => m.ReportarProblema),
+    canActivate: [authGuard]
   },
   {
     path: 'admin',
+    canActivate: [adminGuard],
     children: [
       {
         path: 'dashboard',

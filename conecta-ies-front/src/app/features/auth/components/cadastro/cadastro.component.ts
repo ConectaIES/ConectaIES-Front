@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -10,18 +11,20 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./cadastro.component.scss']
 })
 export class CadastroComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+
   cadastroForm!: FormGroup;
-
-  perfis = ['Aluno', 'Professor']; 
-
-  constructor(private fb: FormBuilder) {}
+  perfis = ['ALUNO', 'PROFESSOR'];
+  loading = signal(false);
+  errorMessage = signal<string>('');
 
   ngOnInit(): void {
     this.cadastroForm = this.fb.group({
-      nomeCompleto: ['', [Validators.required, Validators.minLength(3)]],
-      matricula: ['', [Validators.required]],
+      nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      perfil: ['', [Validators.required]], 
+      tipoPerfil: ['', [Validators.required]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
       confirmarSenha: ['', [Validators.required]]
     });
@@ -33,13 +36,25 @@ export class CadastroComponent implements OnInit {
       return;
     }
 
-    const { senha, confirmarSenha } = this.cadastroForm.value;
+    const { senha, confirmarSenha, nome, email, tipoPerfil } = this.cadastroForm.value;
+    
     if (senha !== confirmarSenha) {
-      alert('As senhas não coincidem!');
+      this.errorMessage.set('As senhas não coincidem!');
       return;
     }
 
-    console.log('Usuário cadastrado:', this.cadastroForm.value);
-    alert('Cadastro realizado com sucesso!');
+    this.loading.set(true);
+    this.errorMessage.set('');
+
+    this.authService.register({ nome, email, tipoPerfil, senha }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.errorMessage.set(err.message || 'Erro ao realizar cadastro. Tente novamente.');
+      }
+    });
   }
 }

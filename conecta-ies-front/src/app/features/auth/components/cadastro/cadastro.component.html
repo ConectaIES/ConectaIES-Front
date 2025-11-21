@@ -6,16 +6,22 @@
     </div>
 
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="auth-form">
+      @if (errorMessage()) {
+        <div class="error-alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
       <div class="form-group">
-        <label for="nomeCompleto">Nome Completo</label>
+        <label for="nome">Nome Completo</label>
         <input 
-          id="nomeCompleto"
+          id="nome"
           type="text" 
-          formControlName="nomeCompleto" 
+          formControlName="nome" 
           placeholder="Digite seu nome completo"
           class="form-input"
         />
-        @if (cadastroForm.get('nomeCompleto')?.invalid && cadastroForm.get('nomeCompleto')?.touched) {
+        @if (cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched) {
           <span class="error-message">Nome completo é obrigatório</span>
         }
       </div>
@@ -35,26 +41,12 @@
       </div>
 
       <div class="form-group">
-        <label for="matricula">Matrícula</label>
-        <input 
-          id="matricula"
-          type="text" 
-          formControlName="matricula" 
-          placeholder="Digite sua matrícula"
-          class="form-input"
-        />
-        @if (cadastroForm.get('matricula')?.invalid && cadastroForm.get('matricula')?.touched) {
-          <span class="error-message">Matrícula é obrigatória</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="perfil">Tipo de Perfil</label>
-        <select id="perfil" formControlName="perfil" class="form-select">
+        <label for="tipoPerfil">Tipo de Perfil</label>
+        <select id="tipoPerfil" formControlName="tipoPerfil" class="form-select">
           <option value="" disabled selected>Selecione seu perfil</option>
           <option *ngFor="let p of perfis" [value]="p">{{ p }}</option>
         </select>
-        @if (cadastroForm.get('perfil')?.invalid && cadastroForm.get('perfil')?.touched) {
+        @if (cadastroForm.get('tipoPerfil')?.invalid && cadastroForm.get('tipoPerfil')?.touched) {
           <span class="error-message">Selecione um tipo de perfil</span>
         }
       </div>
@@ -89,8 +81,12 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="cadastroForm.invalid">
-        Criar Conta
+      <button type="submit" class="btn btn-primary" [disabled]="cadastroForm.invalid || loading()">
+        @if (loading()) {
+          Criando conta...
+        } @else {
+          Criar Conta
+        }
       </button>
     </form>
 

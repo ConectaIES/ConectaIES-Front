@@ -4,16 +4,25 @@
       <img src="../../../../../assets/img/ConectaIES.png" alt="ConectaIES" class="logo">
     </a>
     
-    <div class="perfil-container">
-      <button class="perfil" (click)="toggleMenu()">
-        <img src="https://ui-avatars.com/api/?name=Usuario&background=random" alt="Perfil" class="perfil-img">
-      </button>
-      
-      <nav class="perfil-menu" [class.active]="menuAberto()">
-        <a routerLink="/perfil" routerLinkActive="active" (click)="fecharMenu()">Perfil</a>
-        <a routerLink="/solicitacoes" routerLinkActive="active" (click)="fecharMenu()">Minhas Solicitações</a>
-        <a routerLink="/admin/dashboard" routerLinkActive="active" (click)="fecharMenu()">Dashboard Admin</a>
-      </nav>
-    </div>
+    @if (isAuthenticated()) {
+      <div class="perfil-container">
+        <button class="perfil" (click)="toggleMenu()">
+          <img [src]="'https://ui-avatars.com/api/?name=' + (currentUser()?.nome || 'Usuario') + '&background=random'" 
+               [alt]="currentUser()?.nome || 'Perfil'" 
+               class="perfil-img">
+          <span class="perfil-nome">{{ currentUser()?.nome }}</span>
+        </button>
+        
+        <nav class="perfil-menu" [class.active]="menuAberto()">
+          <a routerLink="/perfil" routerLinkActive="active" (click)="fecharMenu()">Perfil</a>
+          <a routerLink="/solicitacoes" routerLinkActive="active" (click)="fecharMenu()">Minhas Solicitações</a>
+          @if (currentUser()?.tipoPerfil === 'ADMIN') {
+            <a routerLink="/admin/dashboard" routerLinkActive="active" (click)="fecharMenu()">Dashboard Admin</a>
+          }
+          <hr>
+          <a (click)="logout()" class="logout-link">Sair</a>
+        </nav>
+      </div>
+    }
   </div>
 </header>

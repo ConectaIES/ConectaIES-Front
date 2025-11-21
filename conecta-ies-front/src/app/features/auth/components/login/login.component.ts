@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +11,13 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup; 
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  loginForm!: FormGroup;
+  loading = signal(false);
+  errorMessage = signal<string>('');
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -27,14 +32,24 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const { email, senha } = this.loginForm.value;
-    console.log('Tentando login com:', { email, senha });
+    this.loading.set(true);
+    this.errorMessage.set('');
 
-    alert('Login realizado com sucesso!');
-    this.router.navigate(['/solicitacoes']);
+    const { email, senha } = this.loginForm.value;
+
+    this.authService.login({ email, senha }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.errorMessage.set(err.message || 'Erro ao fazer login. Verifique suas credenciais.');
+      }
+    });
   }
 
   onForgotPassword(): void {
-    alert('Funcionalidade de recuperação de senha em desenvolvimento.');
+    this.errorMessage.set('Funcionalidade de recuperação de senha em desenvolvimento.');
   }
 }
