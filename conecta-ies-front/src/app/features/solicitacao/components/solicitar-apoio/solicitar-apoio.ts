@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SolicitacaoService } from '../../services/solicitacao.service';
+import { TipoSolicitacao } from '../../models/solicitacao.model';
 
 @Component({
   selector: 'app-solicitar-apoio',
@@ -10,20 +12,20 @@ import { Router } from '@angular/router';
   styleUrl: './solicitar-apoio.scss',
 })
 export class SolicitarApoio {
+  private readonly router = inject(Router);
+  private readonly solicitacaoService = inject(SolicitacaoService);
+
   titulo = signal('');
   descricao = signal('');
-  tipoApoio = signal('');
+  tipoApoio = signal<TipoSolicitacao | ''>('');
   anexos = signal<File[]>([]);
+  loading = signal(false);
 
   tiposApoio = [
-    { valor: 'APOIO_LOCOMOCAO', label: 'Apoio à Locomoção' },
-    { valor: 'INTERPRETACAO_LIBRAS', label: 'Interpretação em Libras' },
-    { valor: 'MATERIAL_ADAPTADO', label: 'Material Adaptado' },
-    { valor: 'ACESSIBILIDADE_DIGITAL', label: 'Acessibilidade Digital' },
-    { valor: 'OUTROS', label: 'Outros' }
+    { valor: 'APOIO_LOCOMOCAO' as TipoSolicitacao, label: 'Apoio à Locomoção' },
+    { valor: 'INTERPRETACAO_LIBRAS' as TipoSolicitacao, label: 'Interpretação em Libras' },
+    { valor: 'OUTROS' as TipoSolicitacao, label: 'Outros' }
   ];
-  
-  constructor(private router: Router) {}
 
   onFileChange(event: any): void {
     const files = Array.from(event.target.files) as File[];
@@ -44,15 +46,24 @@ export class SolicitarApoio {
       return;
     }
 
-    console.log({
+    this.loading.set(true);
+
+    this.solicitacaoService.criarSolicitacao({
       titulo: this.titulo(),
       descricao: this.descricao(),
-      tipo: this.tipoApoio(),
+      tipo: this.tipoApoio() as TipoSolicitacao,
       anexos: this.anexos()
+    }).subscribe({
+      next: (solicitacao) => {
+        this.loading.set(false);
+        alert(`Solicitação de apoio enviada com sucesso! Protocolo: ${solicitacao.protocolo}`);
+        this.router.navigate(['/solicitacoes']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        alert(`Erro ao enviar solicitação: ${err.message || 'Tente novamente'}`);
+      }
     });
-
-    alert('Solicitação de apoio enviada com sucesso! Protocolo: #' + Math.floor(Math.random() * 10000));
-    this.router.navigate(['/solicitacoes']);
   }
 
   cancelar(): void {

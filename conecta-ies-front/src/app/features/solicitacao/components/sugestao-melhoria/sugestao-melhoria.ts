@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SolicitacaoService } from '../../services/solicitacao.service';
 
 @Component({
   selector: 'app-sugestao-melhoria',
@@ -10,11 +11,15 @@ import { Router } from '@angular/router';
   styleUrl: './sugestao-melhoria.scss',
 })
 export class SugestaoMelhoria {
+  private readonly router = inject(Router);
+  private readonly solicitacaoService = inject(SolicitacaoService);
+
   titulo = signal('');
   descricao = signal('');
   categoria = signal('');
   anonimo = signal(false);
   anexos = signal<File[]>([]);
+  loading = signal(false);
 
   categorias = [
     'Didática',
@@ -24,8 +29,6 @@ export class SugestaoMelhoria {
     'Gestão',
     'Outros'
   ];
-  
-  constructor(private router: Router) {}
 
   onFileChange(event: any): void {
     const files = Array.from(event.target.files) as File[];
@@ -46,17 +49,29 @@ export class SugestaoMelhoria {
       return;
     }
 
-    console.log({
-      titulo: this.titulo(),
-      descricao: this.descricao(),
-      categoria: this.categoria(),
-      anonimo: this.anonimo(),
-      tipo: 'FEEDBACK',
-      anexos: this.anexos()
-    });
+    this.loading.set(true);
 
-    alert('Sugestão enviada com sucesso!');
-    this.router.navigate(['/home']);
+    const tituloCompleto = `[Sugestão - ${this.categoria()}] ${this.titulo()}`;
+    const descricaoCompleta = this.anonimo() 
+      ? `[SUGESTÃO ANÔNIMA]\n\n${this.descricao()}`
+      : this.descricao();
+
+    this.solicitacaoService.criarSolicitacao({
+      titulo: tituloCompleto,
+      descricao: descricaoCompleta,
+      tipo: 'OUTROS',
+      anexos: this.anexos()
+    }).subscribe({
+      next: (solicitacao) => {
+        this.loading.set(false);
+        alert(`Sugestão enviada com sucesso! Protocolo: ${solicitacao.protocolo}`);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        alert(`Erro ao enviar sugestão: ${err.message || 'Tente novamente'}`);
+      }
+    });
   }
 
   cancelar(): void {

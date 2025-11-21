@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SolicitacaoService } from '../../services/solicitacao.service';
 
 @Component({
   selector: 'app-reportar-problema',
@@ -10,11 +11,15 @@ import { Router } from '@angular/router';
   styleUrl: './reportar-problema.scss',
 })
 export class ReportarProblema {
+  private readonly router = inject(Router);
+  private readonly solicitacaoService = inject(SolicitacaoService);
+
   titulo = signal('');
   descricao = signal('');
   local = signal('');
   urgencia = signal('');
   anexos = signal<File[]>([]);
+  loading = signal(false);
 
   niveisUrgencia = [
     { valor: 'BAIXA', label: 'Baixa' },
@@ -22,8 +27,6 @@ export class ReportarProblema {
     { valor: 'ALTA', label: 'Alta' },
     { valor: 'CRITICA', label: 'Crítica' }
   ];
-  
-  constructor(private router: Router) {}
 
   onFileChange(event: any): void {
     const files = Array.from(event.target.files) as File[];
@@ -44,17 +47,26 @@ export class ReportarProblema {
       return;
     }
 
-    console.log({
-      titulo: this.titulo(),
-      descricao: this.descricao(),
-      local: this.local(),
-      urgencia: this.urgencia(),
-      tipo: 'PROBLEMA',
-      anexos: this.anexos()
-    });
+    this.loading.set(true);
 
-    alert('Problema reportado com sucesso! Protocolo: #' + Math.floor(Math.random() * 10000));
-    this.router.navigate(['/solicitacoes']);
+    const tituloCompleto = `[${this.urgencia()}] ${this.titulo()} - ${this.local()}`;
+
+    this.solicitacaoService.criarSolicitacao({
+      titulo: tituloCompleto,
+      descricao: this.descricao(),
+      tipo: 'OUTROS',
+      anexos: this.anexos()
+    }).subscribe({
+      next: (solicitacao) => {
+        this.loading.set(false);
+        alert(`Problema reportado com sucesso! Protocolo: ${solicitacao.protocolo}`);
+        this.router.navigate(['/solicitacoes']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        alert(`Erro ao reportar problema: ${err.message || 'Tente novamente'}`);
+      }
+    });
   }
 
   cancelar(): void {

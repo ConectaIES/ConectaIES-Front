@@ -1,18 +1,28 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { SolicitacaoService } from '../../../solicitacao/services/solicitacao.service';
+import { Usuario } from '../../../../core/models/usuario.model';
 
 interface UsuarioPerfil {
   id: number;
   nome: string;
   email: string;
-  telefone: string;
-  matricula: string;
-  curso: string;
-  periodo: string;
+  telefone?: string;
+  matricula?: string;
+  curso?: string;
+  periodo?: string;
   tipoPerfil: 'ALUNO' | 'PROFESSOR' | 'ADMIN';
-  dataCadastro: Date;
+  dataCadastro?: Date;
   avatarUrl: string;
+}
+
+interface EstatisticasPerfil {
+  totalSolicitacoes: number;
+  resolvidas: number;
+  emAndamento: number;
+  pendentes: number;
 }
 
 @Component({
@@ -21,36 +31,76 @@ interface UsuarioPerfil {
   templateUrl: './perfil.html',
   styleUrl: './perfil.scss',
 })
-export class Perfil {
-  modoEdicao = signal(false);
+export class Perfil implements OnInit {
+  private readonly authService = inject(AuthService);
+  private readonly solicitacaoService = inject(SolicitacaoService);
   
-  usuario = signal<UsuarioPerfil>({
-    id: 1,
-    nome: 'Maria Silva Santos',
-    email: 'maria.santos@estudante.ies.edu.br',
-    telefone: '(11) 98765-4321',
-    matricula: '2023001234',
-    curso: 'Ciência da Computação',
-    periodo: '5º Período',
-    tipoPerfil: 'ALUNO',
-    dataCadastro: new Date('2023-02-15'),
-    avatarUrl: 'https://ui-avatars.com/api/?name=Maria+Silva&background=1976d2&color=fff&size=200'
+  modoEdicao = signal(false);
+  usuario = signal<UsuarioPerfil | null>(null);
+  estatisticas = signal<EstatisticasPerfil>({
+    totalSolicitacoes: 0,
+    resolvidas: 0,
+    emAndamento: 0,
+    pendentes: 0
   });
+
+  ngOnInit(): void {
+    this.carregarDadosUsuario();
+    this.carregarEstatisticas();
+  }
+
+  private carregarDadosUsuario(): void {
+    const usuarioAuth = this.authService.currentUser();
+    
+    if (usuarioAuth) {
+      this.usuario.set({
+        id: usuarioAuth.id,
+        nome: usuarioAuth.nome,
+        email: usuarioAuth.email,
+        telefone: '',
+        matricula: usuarioAuth.matricula || '',
+        curso: '',
+        periodo: '',
+        tipoPerfil: usuarioAuth.tipoPerfil,
+        dataCadastro: usuarioAuth.createdAt,
+        avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(usuarioAuth.nome)}&background=1976d2&color=fff&size=200`
+      });
+    }
+  }
+
+  private carregarEstatisticas(): void {
+    this.solicitacaoService.listarMinhasSolicitacoes().subscribe({
+      next: (solicitacoes) => {
+        const stats: EstatisticasPerfil = {
+          totalSolicitacoes: solicitacoes.length,
+          resolvidas: solicitacoes.filter(s => s.status === 'RESOLVIDO').length,
+          emAndamento: solicitacoes.filter(s => s.status === 'EM_ANALISE' || s.status === 'EM_EXECUCAO').length,
+          pendentes: solicitacoes.filter(s => s.status === 'ABERTO' || s.status === 'NAO_VISTO').length
+        };
+        this.estatisticas.set(stats);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar estatísticas:', err);
+      }
+    });
+  }
 
   toggleEdicao(): void {
     this.modoEdicao.update(value => !value);
   }
 
   salvarPerfil(): void {
-    // TODO: Implementar integração com backend
+    // TODO: Implementar endpoint de atualização de perfil no backend
     console.log('Salvando perfil:', this.usuario());
     this.modoEdicao.set(false);
-    // Simular sucesso
     alert('Perfil atualizado com sucesso!');
+    
+    // Recarregar dados do AuthService se necessário
+    this.authService.refreshUserData();
   }
 
   cancelarEdicao(): void {
-    // TODO: Restaurar dados originais
+    this.carregarDadosUsuario();
     this.modoEdicao.set(false);
   }
 

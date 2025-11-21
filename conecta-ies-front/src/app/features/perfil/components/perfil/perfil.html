@@ -1,12 +1,13 @@
 <div class="perfil-container">
+  @if (usuario()) {
   <div class="perfil-content">
     <div class="perfil-header">
       <div class="perfil-avatar">
-        <img [src]="usuario().avatarUrl" [alt]="usuario().nome" class="avatar-img">
+        <img [src]="usuario()!.avatarUrl" [alt]="usuario()!.nome" class="avatar-img">
       </div>
       <div class="perfil-info">
-        <h1 class="perfil-nome">{{ usuario().nome }}</h1>
-        <span class="perfil-tipo">{{ getTipoPerfilLabel(usuario().tipoPerfil) }}</span>
+        <h1 class="perfil-nome">{{ usuario()!.nome }}</h1>
+        <span class="perfil-tipo">{{ getTipoPerfilLabel(usuario()!.tipoPerfil) }}</span>
       </div>
     </div>
 
@@ -24,61 +25,61 @@
         <div class="info-item">
           <label>Nome Completo</label>
           @if (modoEdicao()) {
-            <input type="text" [(ngModel)]="usuario().nome" class="form-input">
+            <input type="text" [(ngModel)]="usuario()!.nome" class="form-input">
           } @else {
-            <p>{{ usuario().nome }}</p>
+            <p>{{ usuario()!.nome }}</p>
           }
         </div>
 
         <div class="info-item">
           <label>E-mail</label>
           @if (modoEdicao()) {
-            <input type="email" [(ngModel)]="usuario().email" class="form-input">
+            <input type="email" [(ngModel)]="usuario()!.email" class="form-input">
           } @else {
-            <p>{{ usuario().email }}</p>
+            <p>{{ usuario()!.email }}</p>
           }
         </div>
 
         <div class="info-item">
           <label>Telefone</label>
           @if (modoEdicao()) {
-            <input type="tel" [(ngModel)]="usuario().telefone" class="form-input">
+            <input type="tel" [(ngModel)]="usuario()!.telefone" class="form-input">
           } @else {
-            <p>{{ usuario().telefone }}</p>
+            <p>{{ usuario()!.telefone }}</p>
           }
         </div>
 
         <div class="info-item">
           <label>Matrícula</label>
-          <p>{{ usuario().matricula }}</p>
+          <p>{{ usuario()!.matricula }}</p>
         </div>
 
         <div class="info-item">
           <label>Curso</label>
           @if (modoEdicao()) {
-            <input type="text" [(ngModel)]="usuario().curso" class="form-input">
+            <input type="text" [(ngModel)]="usuario()!.curso" class="form-input">
           } @else {
-            <p>{{ usuario().curso }}</p>
+            <p>{{ usuario()!.curso }}</p>
           }
         </div>
 
         <div class="info-item">
           <label>Período</label>
           @if (modoEdicao()) {
-            <input type="text" [(ngModel)]="usuario().periodo" class="form-input">
+            <input type="text" [(ngModel)]="usuario()!.periodo" class="form-input">
           } @else {
-            <p>{{ usuario().periodo }}</p>
+            <p>{{ usuario()!.periodo }}</p>
           }
         </div>
 
         <div class="info-item">
           <label>Tipo de Perfil</label>
-          <p>{{ getTipoPerfilLabel(usuario().tipoPerfil) }}</p>
+          <p>{{ getTipoPerfilLabel(usuario()!.tipoPerfil) }}</p>
         </div>
 
         <div class="info-item">
           <label>Membro desde</label>
-          <p>{{ usuario().dataCadastro | date:'dd/MM/yyyy' }}</p>
+          <p>{{ usuario()!.dataCadastro | date:'dd/MM/yyyy' }}</p>
         </div>
       </div>
 
@@ -94,22 +95,23 @@
       <h2>Estatísticas</h2>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-valor">12</div>
+          <div class="stat-valor">{{ estatisticas().totalSolicitacoes }}</div>
           <div class="stat-label">Solicitações Criadas</div>
         </div>
         <div class="stat-card">
-          <div class="stat-valor">8</div>
+          <div class="stat-valor">{{ estatisticas().resolvidas }}</div>
           <div class="stat-label">Resolvidas</div>
         </div>
         <div class="stat-card">
-          <div class="stat-valor">3</div>
+          <div class="stat-valor">{{ estatisticas().emAndamento }}</div>
           <div class="stat-label">Em Andamento</div>
         </div>
         <div class="stat-card">
-          <div class="stat-valor">1</div>
+          <div class="stat-valor">{{ estatisticas().pendentes }}</div>
           <div class="stat-label">Pendentes</div>
         </div>
       </div>
     </div>
   </div>
+  }
 </div>
