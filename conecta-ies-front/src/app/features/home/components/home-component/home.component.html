@@ -1,19 +1,33 @@
-<div class="home-container fade-in">
+<div class="home-container">
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-content">
-      <h1 class="hero-title">Bem-vindo ao ConectaIES</h1>
-      <p class="hero-subtitle">Plataforma de Gestão de Solicitações e Acessibilidade</p>
+      <div class="hero-welcome">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-icon">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <div class="hero-text">
+          <h1 class="hero-title">Bem-vindo ao ConectaIES</h1>
+          <p class="hero-subtitle">Plataforma de Gestão de Acessibilidade Acadêmica</p>
+        </div>
+      </div>
       <div class="hero-stats">
         <div class="stat-card">
-          <div class="stat-icon">📊</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
           <div class="stat-content">
             <span class="stat-label">Sistema</span>
             <span class="stat-value">Online</span>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🎯</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
           <div class="stat-content">
             <span class="stat-label">Status</span>
             <span class="stat-value">Ativo</span>
@@ -25,73 +39,102 @@
 
   <!-- Seção de Ações -->
   <div class="actions-section">
-    <h2 class="section-title">O que você precisa?</h2>
-    <p class="section-subtitle">Selecione uma opção para iniciar sua solicitação</p>
+    <div class="section-header">
+      <h2 class="section-title">O que você precisa?</h2>
+      <p class="section-subtitle">Selecione uma opção para iniciar sua solicitação</p>
+    </div>
     
     <div class="cards-grid">
       <!-- Chamado Personalizado -->
       <div class="action-card primary-card" (click)="navegar('/chamado-personalizado')">
-        <div class="card-icon-wrapper primary-icon">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path
-              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10a16 16 0 0 0 6 6l1.39-1.39a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+        <div class="card-header">
+          <div class="card-icon-wrapper primary-icon">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10a16 16 0 0 0 6 6l1.39-1.39a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-arrow">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </div>
         <div class="card-content">
           <h3 class="card-title">Chamado Personalizado</h3>
-          <p class="card-description">Abra um chamado específico para suas necessidades</p>
+          <p class="card-description">Abra um chamado específico para suas necessidades de acessibilidade</p>
         </div>
       </div>
 
       <!-- Sugestão de Melhoria -->
       <div class="action-card accent-card" (click)="navegar('/sugestao-melhoria')">
-        <div class="card-icon-wrapper accent-icon">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 16v-4"></path>
-            <path d="M12 8h.01"></path>
+        <div class="card-header">
+          <div class="card-icon-wrapper accent-icon">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-arrow">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </div>
         <div class="card-content">
           <h3 class="card-title">Sugestão de Melhoria</h3>
-          <p class="card-description">Compartilhe ideias para aprimorar nossa instituição</p>
+          <p class="card-description">Compartilhe ideias para aprimorar a acessibilidade institucional</p>
         </div>
       </div>
 
       <!-- Solicitar Apoio -->
       <div class="action-card success-card" (click)="navegar('/solicitar-apoio')">
-        <div class="card-icon-wrapper success-icon">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        <div class="card-header">
+          <div class="card-icon-wrapper success-icon">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-arrow">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </div>
         <div class="card-content">
           <h3 class="card-title">Solicitar Apoio</h3>
-          <p class="card-description">Solicite apoio de acessibilidade e inclusão</p>
+          <p class="card-description">Solicite apoio de acessibilidade, LIBRAS e suporte especializado</p>
         </div>
       </div>
 
       <!-- Reportar Problema -->
       <div class="action-card warning-card" (click)="navegar('/reportar-problema')">
-        <div class="card-icon-wrapper warning-icon">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-            <line x1="12" y1="9" x2="12" y2="13"></line>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        <div class="card-header">
+          <div class="card-icon-wrapper warning-icon">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-arrow">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </div>
         <div class="card-content">
           <h3 class="card-title">Reportar Problema</h3>
-          <p class="card-description">Relate problemas técnicos ou estruturais</p>
+          <p class="card-description">Relate barreiras de acessibilidade ou problemas estruturais</p>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Informação sobre acessibilidade -->
+  <div class="accessibility-info">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 16v-4M12 8h.01"/>
+    </svg>
+    <p>Esta plataforma está comprometida com a inclusão e acessibilidade. Todas as solicitações são tratadas com prioridade e cuidado.</p>
   </div>
 </div>

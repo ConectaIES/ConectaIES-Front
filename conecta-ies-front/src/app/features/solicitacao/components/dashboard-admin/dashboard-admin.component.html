@@ -1,77 +1,264 @@
 <div class="dashboard-container">
-  <div class="header">
-    <h1>
-      Dashboard Administrativo
-      @if (novasSolicitacoesCount() > 0) {
-        <mat-icon [matBadge]="novasSolicitacoesCount()" matBadgeColor="warn" class="notification-icon">
-          notifications_active
-        </mat-icon>
-      }
-    </h1>
-
-    <mat-form-field appearance="outline" class="filtro-ordenacao">
-      <mat-label>Ordenar por</mat-label>
-      <mat-select [value]="filtroOrdenacao()" (valueChange)="filtroOrdenacao.set($event)">
-        <mat-option value="data">Data de Criação</mat-option>
-        <mat-option value="tmr">Tempo para TMR</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-title">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <h1>Dashboard Administrativo</h1>
+        @if (novasSolicitacoesCount() > 0) {
+          <div class="notification-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="badge-count">{{ novasSolicitacoesCount() }}</span>
+          </div>
+        }
+      </div>
+      
+      <div class="header-actions">
+        @if (visualizacao() === 'abertas') {
+          <div class="custom-filter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+            <mat-form-field appearance="outline" class="filtro-ordenacao">
+              <mat-label>Ordenar por</mat-label>
+              <mat-select [value]="filtroOrdenacao()" (valueChange)="filtroOrdenacao.set($event)">
+                <mat-option value="data">Data de Criação</mat-option>
+                <mat-option value="tmr">Tempo para TMR</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+      </div>
+    </div>
   </div>
 
-  @if (carregando()) {
-    <div class="loading">Carregando solicitações...</div>
-  } @else if (solicitacoesOrdenadas().length === 0) {
-    <mat-card class="empty-state">
-      <mat-card-content>
-        <mat-icon>check_circle</mat-icon>
-        <p>Nenhuma solicitação pendente no momento.</p>
-      </mat-card-content>
-    </mat-card>
-  } @else {
-    <div class="solicitacoes-grid">
-      @for (solicitacao of solicitacoesOrdenadas(); track solicitacao.id) {
-        <mat-card 
-          class="solicitacao-card" 
-          [class.nova]="solicitacao.status === 'ABERTO' || solicitacao.status === 'NAO_VISTO'"
-          [class]="getUrgenciaClass(solicitacao)"
-          (click)="verDetalhes(solicitacao.id)"
-        >
-          <mat-card-header>
-            <mat-card-title>{{ solicitacao.titulo }}</mat-card-title>
-            <mat-card-subtitle>
-              Protocolo: {{ solicitacao.protocolo }} | 
-              Usuário: {{ solicitacao.usuarioNome }}
-            </mat-card-subtitle>
-          </mat-card-header>
+  <!-- Filter Tabs -->
+  <div class="filter-tabs">
+    <mat-button-toggle-group [value]="visualizacao()" (change)="alternarVisualizacao($event.value)">
+      <mat-button-toggle value="abertas">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12,6 12,12 16,14"></polyline>
+        </svg>
+        <span>Casos Abertos</span>
+        @if (novasSolicitacoesCount() > 0) {
+          <span class="tab-badge">{{ novasSolicitacoesCount() }}</span>
+        }
+      </mat-button-toggle>
+      <mat-button-toggle value="resolvidas">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22,4 12,14.01 9,11.01"></polyline>
+        </svg>
+        <span>Casos Resolvidos</span>
+        <span class="tab-count">{{ solicitacoesResolvidas().length }}</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-          <mat-card-content>
-            <div class="status-row">
-              <mat-chip [highlighted]="true" [color]="getStatusColor(solicitacao.status)">
-                {{ solicitacao.status }}
-              </mat-chip>
-              
-              @if (solicitacao.timeToTmrBreach) {
-                <span class="tmr-label" [class.urgente]="getUrgenciaClass(solicitacao) === 'urgente'">
-                  {{ getTmrLabel(solicitacao) }}
-                </span>
-              }
+  <!-- Content -->
+  <div class="content-wrapper">
+    <!-- Casos Abertos -->
+    @if (visualizacao() === 'abertas') {
+      @if (carregando()) {
+        <div class="loading-state">
+          <svg class="spinner" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke-width="4"></circle>
+          </svg>
+          <p>Carregando solicitações...</p>
+        </div>
+      } @else if (solicitacoesOrdenadas().length === 0) {
+        <div class="empty-state">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22,4 12,14.01 9,11.01"></polyline>
+          </svg>
+          <h2>Tudo em dia!</h2>
+          <p>Nenhuma solicitação pendente no momento.</p>
+        </div>
+      } @else {
+        <div class="solicitacoes-grid">
+          @for (solicitacao of solicitacoesOrdenadas(); track solicitacao.id) {
+            <div 
+              class="solicitacao-card" 
+              [class.nova]="solicitacao.status === 'ABERTO' || solicitacao.status === 'NAO_VISTO'"
+              [class]="getUrgenciaClass(solicitacao)"
+              (click)="verDetalhes(solicitacao.id)"
+            >
+              <!-- Card Header -->
+              <div class="card-header">
+                <div class="header-top">
+                  <h3>{{ solicitacao.titulo }}</h3>
+                  @if (solicitacao.status === 'ABERTO' || solicitacao.status === 'NAO_VISTO') {
+                    <span class="badge-nova">NOVA</span>
+                  }
+                </div>
+                <div class="header-meta">
+                  <span class="protocolo">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14,2 14,8 20,8"></polyline>
+                    </svg>
+                    {{ solicitacao.protocolo }}
+                  </span>
+                  <span class="usuario">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    {{ solicitacao.usuarioNome }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card Content -->
+              <div class="card-content">
+                <div class="status-info">
+                  <mat-chip [highlighted]="true" [color]="getStatusColor(solicitacao.status)">
+                    {{ solicitacao.status }}
+                  </mat-chip>
+                  
+                  @if (solicitacao.timeToTmrBreach) {
+                    <span class="tmr-badge" [class.urgente]="getUrgenciaClass(solicitacao) === 'urgente'">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                      </svg>
+                      {{ getTmrLabel(solicitacao) }}
+                    </span>
+                  }
+                </div>
+
+                <div class="data-info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <span>{{ solicitacao.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+
+                <p class="descricao">{{ solicitacao.descricao }}</p>
+              </div>
+
+              <!-- Card Footer -->
+              <div class="card-footer">
+                <button class="btn-visualizar">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  Visualizar e Responder
+                </button>
+              </div>
             </div>
-
-            <div class="info-row">
-              <span class="data">{{ solicitacao.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-
-            <p class="descricao">{{ solicitacao.descricao }}</p>
-          </mat-card-content>
-
-          <mat-card-actions>
-            <button mat-button color="primary">
-              <mat-icon>visibility</mat-icon>
-              Visualizar e Responder
-            </button>
-          </mat-card-actions>
-        </mat-card>
+          }
+        </div>
       }
-    </div>
-  }
+    }
+
+    <!-- Casos Resolvidos -->
+    @if (visualizacao() === 'resolvidas') {
+      @if (carregandoResolvidas()) {
+        <div class="loading-state">
+          <svg class="spinner" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke-width="4"></circle>
+          </svg>
+          <p>Carregando casos resolvidos...</p>
+        </div>
+      } @else if (resolvidasOrdenadas().length === 0) {
+        <div class="empty-state">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <h2>Nenhum caso resolvido</h2>
+          <p>Ainda não há solicitações resolvidas.</p>
+        </div>
+      } @else {
+        <div class="solicitacoes-grid">
+          @for (solicitacao of resolvidasOrdenadas(); track solicitacao.id) {
+            <div 
+              class="solicitacao-card resolvida" 
+              (click)="verDetalhes(solicitacao.id)"
+            >
+              <!-- Card Header -->
+              <div class="card-header">
+                <div class="header-top">
+                  <h3>{{ solicitacao.titulo }}</h3>
+                  <span class="badge-resolvida">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                    </svg>
+                    RESOLVIDA
+                  </span>
+                </div>
+                <div class="header-meta">
+                  <span class="protocolo">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14,2 14,8 20,8"></polyline>
+                    </svg>
+                    {{ solicitacao.protocolo }}
+                  </span>
+                  <span class="usuario">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    {{ solicitacao.usuarioNome }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card Content -->
+              <div class="card-content">
+                <div class="data-info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <span>Resolvida em: {{ solicitacao.updatedAt || solicitacao.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+
+                <p class="descricao">{{ solicitacao.descricao }}</p>
+              </div>
+
+              <!-- Card Footer -->
+              <div class="card-footer">
+                <button class="btn-visualizar">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
 </div>

@@ -1,11 +1,21 @@
 <div class="listar-solicitacoes-container">
-  <div class="header">
-    <h1>Minhas Solicitações</h1>
-    <button mat-raised-button color="primary" [matMenuTriggerFor]="menuSolicitacao">
-      <mat-icon>add</mat-icon>
-      Nova Solicitação
-      <mat-icon>arrow_drop_down</mat-icon>
-    </button>
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Minhas Solicitações</h1>
+        <p>Acompanhe o status de todas as suas solicitações de acessibilidade</p>
+      </div>
+      <button class="btn btn-primary" [matMenuTriggerFor]="menuSolicitacao">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        <span>Nova Solicitação</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+    </div>
     
     <mat-menu #menuSolicitacao="matMenu">
       <button mat-menu-item (click)="abrirFormulario('chamado')">
@@ -13,7 +23,7 @@
         <span>Chamado Personalizado</span>
       </button>
       <button mat-menu-item (click)="abrirFormulario('sugestao')">
-        <mat-icon>lightbulb</mat-icon>
+        <mat-icon>star</mat-icon>
         <span>Sugestão de Melhoria</span>
       </button>
       <button mat-menu-item (click)="abrirFormulario('apoio')">
@@ -28,44 +38,69 @@
   </div>
 
   @if (carregando()) {
-    <div class="loading">Carregando...</div>
+    <div class="loading-state">
+      <svg class="spinner" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke-width="4" fill="none"/>
+      </svg>
+      <p>Carregando solicitações...</p>
+    </div>
   } @else if (solicitacoes().length === 0) {
-    <mat-card class="empty-state">
-      <mat-card-content>
-        <p>Você ainda não possui solicitações.</p>
-        <button mat-raised-button color="primary" [matMenuTriggerFor]="menuSolicitacao">
-          <mat-icon>add</mat-icon>
-          Criar Primeira Solicitação
-          <mat-icon>arrow_drop_down</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="empty-icon">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <line x1="9" y1="15" x2="15" y2="15"/>
+      </svg>
+      <h2>Nenhuma solicitação encontrada</h2>
+      <p>Você ainda não possui solicitações de acessibilidade. Crie sua primeira solicitação agora!</p>
+      <button class="btn btn-primary" [matMenuTriggerFor]="menuSolicitacao">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        <span>Criar Primeira Solicitação</span>
+      </button>
+    </div>
   } @else {
     <div class="solicitacoes-grid">
       @for (solicitacao of solicitacoes(); track solicitacao.id) {
-        <mat-card class="solicitacao-card" (click)="verDetalhes(solicitacao.id)">
-          <mat-card-header>
-            <mat-card-title>{{ solicitacao.titulo }}</mat-card-title>
-            <mat-card-subtitle>Protocolo: {{ solicitacao.protocolo }}</mat-card-subtitle>
-          </mat-card-header>
-
-          <mat-card-content>
-            <div class="status-row">
-              <mat-chip [highlighted]="true" [color]="getStatusColor(solicitacao.status)">
-                {{ getStatusLabel(solicitacao.status) }}
-              </mat-chip>
-              <span class="data">{{ solicitacao.updatedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        <div class="solicitacao-card" (click)="verDetalhes(solicitacao.id)">
+          <div class="card-header">
+            <div class="card-title-section">
+              <h3>{{ solicitacao.titulo }}</h3>
+              <span class="protocolo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                {{ solicitacao.protocolo }}
+              </span>
             </div>
-            <p class="descricao">{{ solicitacao.descricao }}</p>
-          </mat-card-content>
+            <mat-chip [highlighted]="true" [color]="getStatusColor(solicitacao.status)" class="status-chip">
+              {{ getStatusLabel(solicitacao.status) }}
+            </mat-chip>
+          </div>
 
-          <mat-card-actions>
-            <button mat-button color="primary">
-              <mat-icon>visibility</mat-icon>
-              Ver Detalhes
-            </button>
-          </mat-card-actions>
-        </mat-card>
+          <div class="card-content">
+            <p class="descricao">{{ solicitacao.descricao }}</p>
+            <div class="card-footer">
+              <div class="data-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>{{ solicitacao.updatedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <button class="btn-ver-detalhes">
+                <span>Ver Detalhes</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       }
     </div>
   }

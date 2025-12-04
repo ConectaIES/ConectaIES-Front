@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { RealTimeNotifierService } from '../../../../shared/services/real-time-notifier.service';
 import { Solicitacao } from '../../models/solicitacao.model';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-listar-solicitacoes',
@@ -23,10 +24,11 @@ import { Solicitacao } from '../../models/solicitacao.model';
   templateUrl: './listar-solicitacoes.component.html',
   styleUrl: './listar-solicitacoes.component.scss'
 })
-export class ListarSolicitacoesComponent implements OnInit {
+export class ListarSolicitacoesComponent implements OnInit, OnDestroy {
   private readonly solicitacaoService = inject(SolicitacaoService);
   private readonly realTimeNotifier = inject(RealTimeNotifierService);
   private readonly router = inject(Router);
+  private routerSubscription?: Subscription;
 
   protected readonly solicitacoes = signal<Solicitacao[]>([]);
   protected readonly carregando = signal(true);
@@ -34,15 +36,34 @@ export class ListarSolicitacoesComponent implements OnInit {
   ngOnInit(): void {
     this.carregarSolicitacoes();
     this.setupRealTimeUpdates();
+    this.setupRouterEvents();
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
+  }
+
+  private setupRouterEvents(): void {
+    this.routerSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        if (event.url === '/solicitacoes') {
+          console.log('Navegou de volta para /solicitacoes - recarregando...');
+          this.carregarSolicitacoes();
+        }
+      });
   }
 
   private carregarSolicitacoes(): void {
+    console.log('Carregando solicitações...');
     this.solicitacaoService.listarMinhasSolicitacoes().subscribe({
       next: (solicitacoes) => {
+        console.log('Solicitações recebidas:', solicitacoes);
         this.solicitacoes.set(solicitacoes);
         this.carregando.set(false);
       },
-      error: () => {
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
         this.carregando.set(false);
       }
     });

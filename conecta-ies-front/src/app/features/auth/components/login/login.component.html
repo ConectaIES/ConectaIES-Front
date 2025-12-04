@@ -1,5 +1,13 @@
 <div class="auth-container">
   <div class="auth-card">
+    <!-- Logo e Identidade -->
+    <div class="brand-identity">
+      <div class="brand-logo">
+        <img src="../../../../../assets/img/ConectaIES.png" alt="ConectaIES Logo" class="logo-image">
+      </div>
+      <p class="brand-tagline">Gestão de Acessibilidade Acadêmica</p>
+    </div>
+
     <div class="auth-header">
       <h2>Bem-vindo de volta!</h2>
       <p>Entre com suas credenciais para acessar o sistema</p>
@@ -8,19 +16,30 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
       @if (errorMessage()) {
         <div class="error-alert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
           {{ errorMessage() }}
         </div>
       }
 
       <div class="form-group">
         <label for="email">E-mail</label>
-        <input 
-          id="email"
-          type="email" 
-          formControlName="email" 
-          placeholder="seu.email@estudante.ies.edu.br"
-          class="form-input"
-        />
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <input 
+            id="email"
+            type="email" 
+            formControlName="email" 
+            placeholder="seu.email@estudante.ies.edu.br"
+            class="form-input"
+          />
+        </div>
         @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
           <span class="error-message">E-mail inválido</span>
         }
@@ -28,13 +47,19 @@
 
       <div class="form-group">
         <label for="senha">Senha</label>
-        <input 
-          id="senha"
-          type="password" 
-          formControlName="senha" 
-          placeholder="••••••••"
-          class="form-input"
-        />
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input 
+            id="senha"
+            type="password" 
+            formControlName="senha" 
+            placeholder="••••••••"
+            class="form-input"
+          />
+        </div>
         @if (loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched) {
           <span class="error-message">Senha deve ter no mínimo 6 caracteres</span>
         }
@@ -46,15 +71,30 @@
 
       <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || loading()">
         @if (loading()) {
+          <svg class="spinner" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke-width="4" fill="none"/>
+          </svg>
           Entrando...
         } @else {
           Entrar
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         }
       </button>
     </form>
 
     <div class="auth-footer">
-      <p>Não tem conta? <a routerLink="/auth/cadastro" class="link-cadastro">Cadastre-se</a></p>
+      <p>Não tem conta? <a routerLink="/auth/cadastro" class="link-cadastro">Cadastre-se gratuitamente</a></p>
+    </div>
+
+    <!-- Informação sobre acessibilidade -->
+    <div class="accessibility-notice">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 16v-4M12 8h.01"/>
+      </svg>
+      <span>Plataforma comprometida com a inclusão e acessibilidade</span>
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { RealTimeNotifierService } from '../../../../shared/services/real-time-notifier.service';
 import { Solicitacao } from '../../models/solicitacao.model';
@@ -22,7 +23,8 @@ import { Solicitacao } from '../../models/solicitacao.model';
     MatIconModule,
     MatBadgeModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonToggleModule
   ],
   templateUrl: './dashboard-admin.component.html',
   styleUrl: './dashboard-admin.component.scss'
@@ -33,8 +35,11 @@ export class DashboardAdminComponent implements OnInit {
   private readonly router = inject(Router);
 
   protected readonly solicitacoes = signal<Solicitacao[]>([]);
+  protected readonly solicitacoesResolvidas = signal<Solicitacao[]>([]);
   protected readonly carregando = signal(true);
+  protected readonly carregandoResolvidas = signal(false);
   protected readonly filtroOrdenacao = signal<string>('data');
+  protected readonly visualizacao = signal<'abertas' | 'resolvidas'>('abertas');
 
   protected readonly novasSolicitacoesCount = computed(() => {
     return this.solicitacoes().filter(s => s.status === 'ABERTO' || s.status === 'NAO_VISTO').length;
@@ -52,9 +57,15 @@ export class DashboardAdminComponent implements OnInit {
     return lista;
   });
 
+  protected readonly resolvidasOrdenadas = computed(() => {
+    const lista = [...this.solicitacoesResolvidas()];
+    return lista.sort((a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime());
+  });
+
   ngOnInit(): void {
     this.realTimeNotifier.connect();
     this.carregarSolicitacoes();
+    this.carregarSolicitacoesResolvidas();
     this.setupRealTimeNotifications();
   }
 
@@ -70,6 +81,19 @@ export class DashboardAdminComponent implements OnInit {
     });
   }
 
+  private carregarSolicitacoesResolvidas(): void {
+    this.carregandoResolvidas.set(true);
+    this.solicitacaoService.listarSolicitacoesResolvidas().subscribe({
+      next: (solicitacoes) => {
+        this.solicitacoesResolvidas.set(solicitacoes);
+        this.carregandoResolvidas.set(false);
+      },
+      error: () => {
+        this.carregandoResolvidas.set(false);
+      }
+    });
+  }
+
   private setupRealTimeNotifications(): void {
     this.realTimeNotifier.getNovaSolicitacao$().subscribe((novaSolicitacao) => {
       this.solicitacoes.set([novaSolicitacao, ...this.solicitacoes()]);
@@ -81,9 +105,17 @@ export class DashboardAdminComponent implements OnInit {
       
       if (index !== -1) {
         const atualizada = { ...lista[index], status: update.status as any };
-        const novaLista = [...lista];
-        novaLista[index] = atualizada;
-        this.solicitacoes.set(novaLista);
+        
+        // Se foi resolvida, move para a lista de resolvidas
+        if (update.status === 'RESOLVIDO') {
+          const novaLista = lista.filter(s => s.id !== update.solicitacaoId);
+          this.solicitacoes.set(novaLista);
+          this.solicitacoesResolvidas.set([atualizada, ...this.solicitacoesResolvidas()]);
+        } else {
+          const novaLista = [...lista];
+          novaLista[index] = atualizada;
+          this.solicitacoes.set(novaLista);
+        }
       }
     });
   }
@@ -119,5 +151,9 @@ export class DashboardAdminComponent implements OnInit {
     const minutos = Math.floor((solicitacao.timeToTmrBreach % 3600) / 60);
     
     return `${horas}h ${minutos}m restantes`;
+  }
+
+  alternarVisualizacao(tipo: 'abertas' | 'resolvidas'): void {
+    this.visualizacao.set(tipo);
   }
 }

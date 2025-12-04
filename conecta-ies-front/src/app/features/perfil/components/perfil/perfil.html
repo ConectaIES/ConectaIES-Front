@@ -1,117 +1,261 @@
 <div class="perfil-container">
   @if (usuario()) {
-  <div class="perfil-content">
-    <div class="perfil-header">
-      <div class="perfil-avatar">
-        <img [src]="usuario()!.avatarUrl" [alt]="usuario()!.nome" class="avatar-img">
-      </div>
-      <div class="perfil-info">
-        <h1 class="perfil-nome">{{ usuario()!.nome }}</h1>
-        <span class="perfil-tipo">{{ getTipoPerfilLabel(usuario()!.tipoPerfil) }}</span>
-      </div>
-    </div>
-
-    <div class="perfil-secao">
-      <div class="secao-header">
-        <h2>Informações Pessoais</h2>
-        @if (!modoEdicao()) {
-          <button class="btn btn-editar" (click)="toggleEdicao()">
-            <span class="icon">✏️</span> Editar Perfil
-          </button>
-        }
-      </div>
-
-      <div class="info-grid">
-        <div class="info-item">
-          <label>Nome Completo</label>
-          @if (modoEdicao()) {
-            <input type="text" [(ngModel)]="usuario()!.nome" class="form-input">
-          } @else {
-            <p>{{ usuario()!.nome }}</p>
-          }
-        </div>
-
-        <div class="info-item">
-          <label>E-mail</label>
-          @if (modoEdicao()) {
-            <input type="email" [(ngModel)]="usuario()!.email" class="form-input">
-          } @else {
-            <p>{{ usuario()!.email }}</p>
-          }
-        </div>
-
-        <div class="info-item">
-          <label>Telefone</label>
-          @if (modoEdicao()) {
-            <input type="tel" [(ngModel)]="usuario()!.telefone" class="form-input">
-          } @else {
-            <p>{{ usuario()!.telefone }}</p>
-          }
-        </div>
-
-        <div class="info-item">
-          <label>Matrícula</label>
-          <p>{{ usuario()!.matricula }}</p>
-        </div>
-
-        <div class="info-item">
-          <label>Curso</label>
-          @if (modoEdicao()) {
-            <input type="text" [(ngModel)]="usuario()!.curso" class="form-input">
-          } @else {
-            <p>{{ usuario()!.curso }}</p>
-          }
-        </div>
-
-        <div class="info-item">
-          <label>Período</label>
-          @if (modoEdicao()) {
-            <input type="text" [(ngModel)]="usuario()!.periodo" class="form-input">
-          } @else {
-            <p>{{ usuario()!.periodo }}</p>
-          }
-        </div>
-
-        <div class="info-item">
-          <label>Tipo de Perfil</label>
-          <p>{{ getTipoPerfilLabel(usuario()!.tipoPerfil) }}</p>
-        </div>
-
-        <div class="info-item">
-          <label>Membro desde</label>
-          <p>{{ usuario()!.dataCadastro | date:'dd/MM/yyyy' }}</p>
-        </div>
-      </div>
-
-      @if (modoEdicao()) {
-        <div class="acoes">
-          <button class="btn btn-cancelar" (click)="cancelarEdicao()">Cancelar</button>
-          <button class="btn btn-salvar" (click)="salvarPerfil()">Salvar Alterações</button>
-        </div>
-      }
-    </div>
-
-    <div class="perfil-secao">
-      <h2>Estatísticas</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-valor">{{ estatisticas().totalSolicitacoes }}</div>
-          <div class="stat-label">Solicitações Criadas</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-valor">{{ estatisticas().resolvidas }}</div>
-          <div class="stat-label">Resolvidas</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-valor">{{ estatisticas().emAndamento }}</div>
-          <div class="stat-label">Em Andamento</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-valor">{{ estatisticas().pendentes }}</div>
-          <div class="stat-label">Pendentes</div>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-top">
+          <div class="avatar-section">
+            <div class="avatar-wrapper">
+              <img [src]="usuario()!.avatarUrl" [alt]="usuario()!.nome" class="avatar-img">
+              <div class="avatar-badge">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+          <div class="header-info">
+            <h1>{{ usuario()!.nome }}</h1>
+            <span class="perfil-tipo">{{ getTipoPerfilLabel(usuario()!.tipoPerfil) }}</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Content Grid -->
+    <div class="content-wrapper">
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Informações Pessoais -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="section-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <h2>Informações Pessoais</h2>
+            </div>
+            @if (!modoEdicao()) {
+              <button class="btn-edit" (click)="toggleEdicao()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Editar Perfil
+              </button>
+            }
+          </div>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Nome Completo
+              </label>
+              @if (modoEdicao()) {
+                <input type="text" [(ngModel)]="usuario()!.nome" class="form-input">
+              } @else {
+                <p>{{ usuario()!.nome }}</p>
+              }
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                E-mail
+              </label>
+              @if (modoEdicao()) {
+                <input type="email" [(ngModel)]="usuario()!.email" class="form-input">
+              } @else {
+                <p>{{ usuario()!.email }}</p>
+              }
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                Telefone
+              </label>
+              @if (modoEdicao()) {
+                <input type="tel" [(ngModel)]="usuario()!.telefone" class="form-input">
+              } @else {
+                <p>{{ usuario()!.telefone }}</p>
+              }
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14,2 14,8 20,8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10,9 9,9 8,9"></polyline>
+                </svg>
+                Matrícula
+              </label>
+              <p>{{ usuario()!.matricula }}</p>
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                Curso
+              </label>
+              @if (modoEdicao()) {
+                <input type="text" [(ngModel)]="usuario()!.curso" class="form-input">
+              } @else {
+                <p>{{ usuario()!.curso }}</p>
+              }
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Período
+              </label>
+              @if (modoEdicao()) {
+                <input type="text" [(ngModel)]="usuario()!.periodo" class="form-input">
+              } @else {
+                <p>{{ usuario()!.periodo }}</p>
+              }
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Tipo de Perfil
+              </label>
+              <p>{{ getTipoPerfilLabel(usuario()!.tipoPerfil) }}</p>
+            </div>
+
+            <div class="info-item">
+              <label>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12,6 12,12 16,14"></polyline>
+                </svg>
+                Membro desde
+              </label>
+              <p>{{ usuario()!.dataCadastro | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+
+          @if (modoEdicao()) {
+            <div class="form-actions">
+              <button class="btn btn-cancel" (click)="cancelarEdicao()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                Cancelar
+              </button>
+              <button class="btn btn-save" (click)="salvarPerfil()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+                Salvar Alterações
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar-content">
+        <!-- Estatísticas -->
+        <div class="stats-card">
+          <div class="card-header">
+            <div class="section-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="20" x2="12" y2="10"></line>
+                <line x1="18" y1="20" x2="18" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="16"></line>
+              </svg>
+              <h2>Estatísticas</h2>
+            </div>
+          </div>
+
+          <div class="stats-list">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14,2 14,8 20,8"></polyline>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ estatisticas().totalSolicitacoes }}</div>
+                <div class="stat-label">Solicitações Criadas</div>
+              </div>
+            </div>
+
+            <div class="stat-item stat-success">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ estatisticas().resolvidas }}</div>
+                <div class="stat-label">Resolvidas</div>
+              </div>
+            </div>
+
+            <div class="stat-item stat-warning">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12,6 12,12 16,14"></polyline>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ estatisticas().emAndamento }}</div>
+                <div class="stat-label">Em Andamento</div>
+              </div>
+            </div>
+
+            <div class="stat-item stat-pending">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ estatisticas().pendentes }}</div>
+                <div class="stat-label">Pendentes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   }
 </div>

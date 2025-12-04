@@ -55,6 +55,10 @@ export class SolicitacaoService {
     return this.http.get<Solicitacao[]>(`${this.apiUrl}/admin/novas`);
   }
 
+  listarSolicitacoesResolvidas(): Observable<Solicitacao[]> {
+    return this.http.get<Solicitacao[]>(`${this.apiUrl}/admin/resolvidas`);
+  }
+
   atribuirSolicitacao(id: number, usuarioId: number, nota: string): Observable<Solicitacao> {
     return this.http.patch<Solicitacao>(`${this.apiUrl}/${id}/atribuir`, { usuarioId, nota });
   }

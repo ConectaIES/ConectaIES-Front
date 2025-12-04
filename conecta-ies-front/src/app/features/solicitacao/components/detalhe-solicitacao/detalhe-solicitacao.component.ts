@@ -119,6 +119,12 @@ export class DetalheSolicitacaoComponent implements OnInit {
   }
 
   voltar(): void {
-    this.router.navigate(['/solicitacoes']);
+    // Verifica se está no contexto admin
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('/admin/')) {
+      this.router.navigate(['/admin/dashboard']);
+    } else {
+      this.router.navigate(['/solicitacoes']);
+    }
   }
 }

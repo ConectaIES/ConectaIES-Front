@@ -1,5 +1,13 @@
 <div class="auth-container">
   <div class="auth-card">
+    <!-- Logo e Identidade -->
+    <div class="brand-identity">
+      <div class="brand-logo">
+        <img src="../../../../../assets/img/ConectaIES.png" alt="ConectaIES Logo" class="logo-image">
+      </div>
+      <p class="brand-tagline">Gestão de Acessibilidade Acadêmica</p>
+    </div>
+
     <div class="auth-header">
       <h2>Criar Nova Conta</h2>
       <p>Preencha os dados abaixo para se cadastrar no sistema</p>
@@ -8,19 +16,30 @@
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="auth-form">
       @if (errorMessage()) {
         <div class="error-alert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
           {{ errorMessage() }}
         </div>
       }
 
       <div class="form-group">
         <label for="nome">Nome Completo</label>
-        <input 
-          id="nome"
-          type="text" 
-          formControlName="nome" 
-          placeholder="Digite seu nome completo"
-          class="form-input"
-        />
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <input 
+            id="nome"
+            type="text" 
+            formControlName="nome" 
+            placeholder="Digite seu nome completo"
+            class="form-input"
+          />
+        </div>
         @if (cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched) {
           <span class="error-message">Nome completo é obrigatório</span>
         }
@@ -28,13 +47,19 @@
 
       <div class="form-group">
         <label for="email">E-mail Institucional</label>
-        <input 
-          id="email"
-          type="email" 
-          formControlName="email" 
-          placeholder="seu.email@estudante.ies.edu.br"
-          class="form-input"
-        />
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <input 
+            id="email"
+            type="email" 
+            formControlName="email" 
+            placeholder="seu.email@estudante.ies.edu.br"
+            class="form-input"
+          />
+        </div>
         @if (cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched) {
           <span class="error-message">E-mail inválido</span>
         }
@@ -42,10 +67,18 @@
 
       <div class="form-group">
         <label for="tipoPerfil">Tipo de Perfil</label>
-        <select id="tipoPerfil" formControlName="tipoPerfil" class="form-select">
-          <option value="" disabled selected>Selecione seu perfil</option>
-          <option *ngFor="let p of perfis" [value]="p">{{ p }}</option>
-        </select>
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <select id="tipoPerfil" formControlName="tipoPerfil" class="form-select">
+            <option value="" disabled selected>Selecione seu perfil</option>
+            <option *ngFor="let p of perfis" [value]="p">{{ p }}</option>
+          </select>
+        </div>
         @if (cadastroForm.get('tipoPerfil')?.invalid && cadastroForm.get('tipoPerfil')?.touched) {
           <span class="error-message">Selecione um tipo de perfil</span>
         }
@@ -54,13 +87,19 @@
       <div class="form-row">
         <div class="form-group">
           <label for="senha">Senha</label>
-          <input 
-            id="senha"
-            type="password" 
-            formControlName="senha" 
-            placeholder="••••••••"
-            class="form-input"
-          />
+          <div class="input-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input 
+              id="senha"
+              type="password" 
+              formControlName="senha" 
+              placeholder="••••••••"
+              class="form-input"
+            />
+          </div>
           @if (cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched) {
             <span class="error-message">Mínimo 6 caracteres</span>
           }
@@ -68,13 +107,19 @@
 
         <div class="form-group">
           <label for="confirmarSenha">Confirmar Senha</label>
-          <input 
-            id="confirmarSenha"
-            type="password" 
-            formControlName="confirmarSenha" 
-            placeholder="••••••••"
-            class="form-input"
-          />
+          <div class="input-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input 
+              id="confirmarSenha"
+              type="password" 
+              formControlName="confirmarSenha" 
+              placeholder="••••••••"
+              class="form-input"
+            />
+          </div>
           @if (cadastroForm.get('confirmarSenha')?.invalid && cadastroForm.get('confirmarSenha')?.touched) {
             <span class="error-message">As senhas não coincidem</span>
           }
@@ -83,15 +128,30 @@
 
       <button type="submit" class="btn btn-primary" [disabled]="cadastroForm.invalid || loading()">
         @if (loading()) {
+          <svg class="spinner" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke-width="4" fill="none"/>
+          </svg>
           Criando conta...
         } @else {
           Criar Conta
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         }
       </button>
     </form>
 
     <div class="auth-footer">
       <p>Já tem conta? <a routerLink="/auth/login" class="link-login">Fazer login</a></p>
+    </div>
+
+    <!-- Informação sobre acessibilidade -->
+    <div class="accessibility-notice">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 16v-4M12 8h.01"/>
+      </svg>
+      <span>Plataforma comprometida com a inclusão e acessibilidade</span>
     </div>
   </div>
 </div>
