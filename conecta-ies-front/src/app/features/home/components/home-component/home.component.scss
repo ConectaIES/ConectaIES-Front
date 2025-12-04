@@ -1,65 +1,273 @@
 .home-container {
-  width: 100%;
-  height: calc(100vh - 120px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 40px;
-  background: #fff;
+  min-height: calc(100vh - 80px);
+  background: var(--color-bg);
 }
 
-.titulo {
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  color: oklab(60.483% -0.04788 -0.21128);
+// ========================================
+// HERO SECTION
+// ========================================
+
+.hero-section {
+  background: var(--gradient-hero);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-white);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.95;
+  font-weight: 400;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-lg);
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: all var(--transition-base);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+  }
+}
+
+.stat-icon {
+  font-size: 2rem;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+// ========================================
+// ACTIONS SECTION
+// ========================================
+
+.actions-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-dark);
+  
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xl);
 }
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-  width: 90%;
-  max-width: 450px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
 }
 
-.card {
-  background: #f3f3f3;
-  border-radius: 14px;
-  padding: 28px 10px;
-  text-align: center;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.12);
-  transition: 0.2s ease;
+// ========================================
+// ACTION CARDS
+// ========================================
+
+.action-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
   cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+  
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    .card-icon-wrapper {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-2px);
+  }
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.18);
+.primary-card {
+  &::before {
+    background: var(--gradient-primary);
+  }
+  
+  &:hover {
+    border-color: var(--color-primary-light);
+  }
 }
 
-/* NOVO – coloca o texto acima do ícone */
-.card-title {
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 14px;
-  display: block;
-  white-space: nowrap; /* impede quebrar linha */
-  text-align: center;
+.accent-card {
+  &::before {
+    background: var(--gradient-accent);
+  }
+  
+  &:hover {
+    border-color: var(--color-accent);
+  }
+}
+
+.success-card {
+  &::before {
+    background: linear-gradient(135deg, var(--color-success) 0%, #2E7D32 100%);
+  }
+  
+  &:hover {
+    border-color: var(--color-success);
+  }
+}
+
+.warning-card {
+  &::before {
+    background: linear-gradient(135deg, var(--color-warning) 0%, #E65100 100%);
+  }
+  
+  &:hover {
+    border-color: var(--color-warning);
+  }
+}
+
+.card-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.primary-icon {
+  background: linear-gradient(135deg, rgba(21, 101, 192, 0.1) 0%, rgba(13, 71, 161, 0.1) 100%);
+  color: var(--color-primary);
+}
+
+.accent-icon {
+  background: linear-gradient(135deg, rgba(0, 137, 123, 0.1) 0%, rgba(0, 105, 92, 0.1) 100%);
+  color: var(--color-accent);
+}
+
+.success-icon {
+  background: linear-gradient(135deg, rgba(67, 160, 71, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
+  color: var(--color-success);
+}
+
+.warning-icon {
+  background: linear-gradient(135deg, rgba(251, 140, 0, 0.1) 0%, rgba(230, 81, 0, 0.1) 100%);
+  color: var(--color-warning);
 }
 
 .card-icon {
-  width: 62px;
-  height: 62px;
-  margin-bottom: 12px;
-  color: #000;
-  object-fit: contain; /* essencial para PNG ficar bonito */
+  width: 32px;
+  height: 32px;
+  stroke-width: 2;
 }
 
-.card span {
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  line-height: 18px;
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0;
+}
+
+.card-description {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  line-height: 1.5;
+  margin: 0;
 }
