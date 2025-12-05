@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { Solicitacao } from '../../features/solicitacao/models/solicitacao.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class RealTimeNotifierService {
   private atualizacaoStatusSubject = new Subject<{ solicitacaoId: number; status: string }>();
 
   constructor() {
-    this.socket = io('http://localhost:3000', {
+    this.socket = io(environment.wsUrl, {
       autoConnect: false
     });
 

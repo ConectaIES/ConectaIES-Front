@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, tap, BehaviorSubject } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { AuthResponse, LoginCredentials, RegisterData } from '../models/auth-response.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   
-  private readonly API_URL = 'http://localhost:3000/api';
+  private readonly API_URL = environment.apiUrl;
   private readonly TOKEN_KEY = 'conecta_ies_token';
   private readonly USER_KEY = 'conecta_ies_user';
 
