@@ -1,6 +1,5 @@
 .app-main {
-  min-height: calc(100vh - 8rem); 
-  
+  min-height: calc(100vh - 8rem);
 }
 
 .app-footer {
@@ -13,6 +12,8 @@
   align-items: center; 
   flex-direction: column;
   font-size: 0.9rem;
+  border: none;
+  margin: 0;
 
   .container {
     max-width: 1400px;

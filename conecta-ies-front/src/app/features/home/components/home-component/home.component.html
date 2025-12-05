@@ -1,20 +1,20 @@
 <div class="home-container">
   <!-- Hero Section -->
-  <div class="hero-section">
+  <section class="hero-section" aria-labelledby="hero-title">
     <div class="hero-content">
       <div class="hero-welcome">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-icon" aria-hidden="true">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
         </svg>
         <div class="hero-text">
-          <h1 class="hero-title">Bem-vindo ao ConectaIES</h1>
+          <h1 class="hero-title" id="hero-title">Bem-vindo ao ConectaIES</h1>
           <p class="hero-subtitle">Plataforma de Gestão de Acessibilidade Acadêmica</p>
         </div>
       </div>
-      <div class="hero-stats">
+      <div class="hero-stats" role="status" aria-live="polite" aria-label="Status do sistema">
         <div class="stat-card">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <polyline points="12 6 12 12 16 14"/>
           </svg>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <path d="M9 12l2 2 4-4"/>
           </svg>
@@ -35,18 +35,22 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Seção de Ações -->
-  <div class="actions-section">
+  <section class="actions-section" aria-labelledby="actions-title">
     <div class="section-header">
-      <h2 class="section-title">O que você precisa?</h2>
+      <h2 class="section-title" id="actions-title">O que você precisa?</h2>
       <p class="section-subtitle">Selecione uma opção para iniciar sua solicitação</p>
     </div>
     
-    <div class="cards-grid">
+    <nav class="cards-grid" aria-label="Opções de solicitação de acessibilidade">
       <!-- Chamado Personalizado -->
-      <div class="action-card primary-card" (click)="navegar('/chamado-personalizado')">
+      <div class="action-card primary-card" (click)="navegar('/chamado-personalizado')"
+           tabindex="0" role="button"
+           (keydown.enter)="navegar('/chamado-personalizado')"
+           (keydown.space)="navegar('/chamado-personalizado')"
+           aria-label="Abrir chamado personalizado para suas necessidades de acessibilidade">
         <div class="card-header">
           <div class="card-icon-wrapper primary-icon">
             <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -66,7 +70,11 @@
       </div>
 
       <!-- Sugestão de Melhoria -->
-      <div class="action-card accent-card" (click)="navegar('/sugestao-melhoria')">
+      <div class="action-card accent-card" (click)="navegar('/sugestao-melhoria')"
+           tabindex="0" role="button"
+           (keydown.enter)="navegar('/sugestao-melhoria')"
+           (keydown.space)="navegar('/sugestao-melhoria')"
+           aria-label="Compartilhar ideias para aprimorar a acessibilidade institucional">
         <div class="card-header">
           <div class="card-icon-wrapper accent-icon">
             <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -85,7 +93,11 @@
       </div>
 
       <!-- Solicitar Apoio -->
-      <div class="action-card success-card" (click)="navegar('/solicitar-apoio')">
+      <div class="action-card success-card" (click)="navegar('/solicitar-apoio')"
+           tabindex="0" role="button"
+           (keydown.enter)="navegar('/solicitar-apoio')"
+           (keydown.space)="navegar('/solicitar-apoio')"
+           aria-label="Solicitar apoio de acessibilidade, LIBRAS e suporte especializado">
         <div class="card-header">
           <div class="card-icon-wrapper success-icon">
             <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -107,7 +119,11 @@
       </div>
 
       <!-- Reportar Problema -->
-      <div class="action-card warning-card" (click)="navegar('/reportar-problema')">
+      <div class="action-card warning-card" (click)="navegar('/reportar-problema')"
+           tabindex="0" role="button"
+           (keydown.enter)="navegar('/reportar-problema')"
+           (keydown.space)="navegar('/reportar-problema')"
+           aria-label="Relatar barreiras de acessibilidade ou problemas estruturais">
         <div class="card-header">
           <div class="card-icon-wrapper warning-icon">
             <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -126,15 +142,6 @@
           <p class="card-description">Relate barreiras de acessibilidade ou problemas estruturais</p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Informação sobre acessibilidade -->
-  <div class="accessibility-info">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M12 16v-4M12 8h.01"/>
-    </svg>
-    <p>Esta plataforma está comprometida com a inclusão e acessibilidade. Todas as solicitações são tratadas com prioridade e cuidado.</p>
-  </div>
+    </nav>
+  </section>
 </div>

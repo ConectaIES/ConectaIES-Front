@@ -1,10 +1,17 @@
-<app-header></app-header>
+<!-- Link para pular para o conteúdo principal (acessibilidade) -->
+<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
-<main class="app-main">
+<app-header role="banner"></app-header>
+
+<!-- Toolbar de Acessibilidade -->
+<app-accessibility-toolbar aria-label="Painel de recursos de acessibilidade"></app-accessibility-toolbar>
+
+<!-- Região de navegação principal -->
+<main class="app-main" role="main" id="main-content" aria-label="Conteúdo principal">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="app-footer">
+<footer class="app-footer" role="contentinfo" aria-label="Informações de rodapé">
   <div class="container">
     <p>&copy; 2025 ConectaIES. Todos os direitos reservados.</p>
   </div>

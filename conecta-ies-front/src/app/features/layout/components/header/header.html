@@ -1,28 +1,65 @@
-<header class="app-header">
+<header class="app-header" role="banner">
   <div class="container">
-    <a routerLink="/home" class="logo-link">
-      <img src="../../../../../assets/img/ConectaIES.png" alt="ConectaIES" class="logo">
+    <a routerLink="/home" class="logo-link" aria-label="Ir para página inicial do ConectaIES">
+      <img src="../../../../../assets/img/ConectaIES.png" alt="ConectaIES - Logotipo" class="logo">
     </a>
     
     @if (isAuthenticated()) {
-      <div class="perfil-container">
-        <button class="perfil" (click)="toggleMenu()">
+      <nav class="perfil-container" aria-label="Menu do usuário">
+        <button 
+          class="perfil" 
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="menuAberto()"
+          aria-haspopup="true"
+          aria-label="Menu de perfil de {{ currentUser()?.nome || 'usuário' }}">
           <img [src]="'https://ui-avatars.com/api/?name=' + (currentUser()?.nome || 'Usuario') + '&background=random'" 
-               [alt]="currentUser()?.nome || 'Perfil'" 
-               class="perfil-img">
-          <span class="perfil-nome">{{ currentUser()?.nome }}</span>
+               [alt]="'Foto de perfil de ' + (currentUser()?.nome || 'usuário')" 
+               class="perfil-img"
+               role="img">
+          <span class="perfil-nome" aria-hidden="true">{{ currentUser()?.nome }}</span>
         </button>
         
-        <nav class="perfil-menu" [class.active]="menuAberto()">
-          <a routerLink="/perfil" routerLinkActive="active" (click)="fecharMenu()">Perfil</a>
-          <a routerLink="/solicitacoes" routerLinkActive="active" (click)="fecharMenu()">Minhas Solicitações</a>
+        <div 
+          class="perfil-menu" 
+          [class.active]="menuAberto()"
+          role="menu"
+          [attr.aria-hidden]="!menuAberto()">
+          <a 
+            routerLink="/perfil" 
+            routerLinkActive="active" 
+            (click)="fecharMenu()"
+            role="menuitem"
+            aria-label="Ir para página de perfil">
+            Perfil
+          </a>
+          <a 
+            routerLink="/solicitacoes" 
+            routerLinkActive="active" 
+            (click)="fecharMenu()"
+            role="menuitem"
+            aria-label="Ver minhas solicitações">
+            Minhas Solicitações
+          </a>
           @if (currentUser()?.tipoPerfil === 'ADMIN') {
-            <a routerLink="/admin/dashboard" routerLinkActive="active" (click)="fecharMenu()">Dashboard Admin</a>
+            <a 
+              routerLink="/admin/dashboard" 
+              routerLinkActive="active" 
+              (click)="fecharMenu()"
+              role="menuitem"
+              aria-label="Acessar dashboard administrativo">
+              Dashboard Admin
+            </a>
           }
-          <hr>
-          <a (click)="logout()" class="logout-link">Sair</a>
-        </nav>
-      </div>
+          <hr role="separator" aria-hidden="true">
+          <a 
+            (click)="logout()" 
+            class="logout-link"
+            role="menuitem"
+            aria-label="Sair da conta">
+            Sair
+          </a>
+        </div>
+      </nav>
     }
   </div>
 </header>
